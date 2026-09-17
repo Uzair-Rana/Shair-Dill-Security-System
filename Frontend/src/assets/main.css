@@ -1,0 +1,160 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap");
+@import "tailwindcss";
+
+/* ============================================================
+   SDSSS DESIGN TOKENS — Light Professional Edition
+   White:            #FFFFFF  (primary bg)
+   Slate Light:      #F8FAFC  (secondary bg)
+   Pearl Neutral:    #FAF5E8  (tertiary bg)
+   Gold Primary:     #C5A059  (borders, accents)
+   Gold Accent:      #D4AF37  (highlights)
+   Gold Light:       #E6CA65  (light accents)
+   Navy Dark:        #0F172A  (headers)
+   Slate Dark:       #334155  (body text)
+   ============================================================ */
+
+@theme {
+  /* Light Grounds */
+  --color-white: #FFFFFF;
+  --color-slate-light: #F8FAFC;
+  --color-pearl: #FAF5E8;
+
+  /* Gold Accents */
+  --color-gold-primary: #C5A059;
+  --color-gold-accent: #D4AF37;
+  --color-gold-light: #E6CA65;
+
+  /* Text */
+  --color-navy-dark: #0F172A;
+  --color-slate-dark: #334155;
+  --color-slate-medium: #64748B;
+  --color-slate-light-text: #94A3B8;
+
+  /* Typography */
+  --font-display: "Playfair Display", Georgia, serif;
+  --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen, Ubuntu, Cantarell, sans-serif;
+}
+
+.announcement-bar {
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: .65rem;
+  background: #283231;
+  color: #fff;
+  font: 400 12px/1 "Roboto", sans-serif;
+}
+.announcement-bar span { color: #bcd0ff; }
+.ezviz-header { height: 54px; background: #fff; border-bottom: 1px solid #ededed; }
+.header-icon { width: 34px; height: 34px; border: 0; background: transparent; color: #333; font-size: 23px; line-height: 1; cursor: pointer; }
+.header-icon:hover { color: #2666ff; }
+.ezviz-footer { color: #2c2c2c; }
+
+/* ── Base ──────────────────────────────────────────────────── */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    font-family: "Roboto", var(--font-sans);
+    color: #334155;
+    background-color: #FFFFFF;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    line-height: 1.6;
+    font-feature-settings: "ss01", "cv02", "cv03", "cv04", "cv11";
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-weight: 700;
+    color: #0F172A;
+    line-height: 1.25;
+    letter-spacing: -0.01em;
+  }
+
+  h1,
+  h2 {
+    font-family: "Roboto", sans-serif;
+  }
+
+  strong,
+  b {
+    font-weight: 650;
+    color: #0F172A;
+  }
+
+  a {
+    color: inherit;
+  }
+
+  ::selection {
+    background-color: #C5A059;
+    color: #FFFFFF;
+  }
+
+  #app {
+    min-height: 100vh;
+  }
+}
+
+/* ── Scrollbar ─────────────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #F8FAFC;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #C5A059;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #D4AF37;
+}
+
+/* ── Gold Gradient Utilities ───────────────────────────────── */
+.gold-gradient {
+  background: linear-gradient(to right, #C5A059, #E6CA65);
+}
+
+.gold-text {
+  @apply text-[#C5A059];
+}
+
+.gold-border {
+  @apply border-[#C5A059];
+}
+
+/* ── Glass Morphism for Light Theme ────────────────────────── */
+.glass-light {
+  @apply backdrop-blur-md bg-white/90 border border-white/20 shadow-sm;
+}
+
+/* ── Smooth Transitions ────────────────────────────────────── */
+.transition-smooth {
+  transition-timing-function: cubic-bezier(0.4, 0.0, 0.2, 1);
+}
+
+/* ── Reduced Motion ────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

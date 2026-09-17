@@ -1,0 +1,22 @@
+# Environment and secrets
+.env
+.env.*
+!.env.example
+
+# Python
+Backend/venv/
+**/__pycache__/
+*.py[cod]
+*.sqlite3
+
+# Node and build output
+**/node_modules/
+**/dist/
+**/build/
+*.tsbuildinfo
+
+# Local tooling and logs
+.idea/
+.vscode/
+*.log
+.DS_Store
