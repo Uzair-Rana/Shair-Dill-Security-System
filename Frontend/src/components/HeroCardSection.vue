@@ -103,7 +103,7 @@ import cctvCameraImg from '../assets/products/CCTV_live_view_grid_mockup_2026090
   -webkit-text-fill-color: transparent;
   background-clip: text;
   margin: 0;
-  font-family: 'Playfair Display', serif;
+  font-family: var(--font-heading);
   line-height: 1.2;
   letter-spacing: -1px;
   padding: 40px 40px 0 40px;

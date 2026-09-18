@@ -151,7 +151,7 @@ const duplicatedProducts = [...products, ...products]
   font-weight: 700;
   color: #0f172a;
   margin: 0;
-  font-family: 'Playfair Display', serif;
+  font-family: var(--font-heading);
   text-align: center;
   line-height: 1.3;
   transform-style: preserve-3d;

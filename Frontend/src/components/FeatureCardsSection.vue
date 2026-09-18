@@ -32,7 +32,7 @@ const cards = [
     <div class="max-w-[1400px] mx-auto px-5 sm:px-8">
       <!-- Section Header -->
       <div class="text-center mb-16">
-        <h2 class="text-4xl md:text-5xl font-bold text-[#0F172A] mb-4" style="font-family: 'Playfair Display', serif;">
+        <h2 class="text-4xl md:text-5xl font-bold text-[#0F172A] mb-4" style="font-family: var(--font-heading);">
           SECURITY YOU CAN DEPEND ON
         </h2>
         <p class="text-lg text-[#334155] max-w-2xl mx-auto">
@@ -54,7 +54,7 @@ const cards = [
           </div>
 
           <!-- Title -->
-          <h3 class="text-xl font-bold text-[#0F172A] mb-4" style="font-family: 'Playfair Display', serif;">
+          <h3 class="text-xl font-bold text-[#0F172A] mb-4" style="font-family: var(--font-heading);">
             {{ card.title }}
           </h3>
 

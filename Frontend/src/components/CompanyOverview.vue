@@ -28,7 +28,7 @@ const pillars = [
     <div class="max-w-[1400px] mx-auto px-5 sm:px-8">
       <!-- Section Header -->
       <div class="text-center mb-16">
-        <h2 class="text-3xl md:text-4xl font-bold mb-4 text-[#0f172a]" style="font-family: 'Playfair Display', serif;">
+        <h2 class="text-3xl md:text-4xl font-bold mb-4 text-[#0f172a]" style="font-family: var(--font-heading);">
           Trusted by Leading Organizations
         </h2>
         <p class="text-lg text-[#475569] max-width: 2xl mx-auto font-medium">
@@ -48,7 +48,7 @@ const pillars = [
             </div>
 
             <!-- Title -->
-            <h3 class="text-xl font-bold text-[#0f172a] mb-3" style="font-family: 'Playfair Display', serif; transform-style: preserve-3d; transform: translateZ(15px);">
+            <h3 class="text-xl font-bold text-[#0f172a] mb-3" style="font-family: var(--font-heading); transform-style: preserve-3d; transform: translateZ(15px);">
               {{ pillar.title }}
             </h3>
 

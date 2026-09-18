@@ -110,7 +110,7 @@ const testimonials: Testimonial[] = [
   font-weight: 900;
   color: #0f172a;
   margin: 0 0 16px 0;
-  font-family: 'Playfair Display', serif;
+  font-family: var(--font-heading);
   letter-spacing: -0.5px;
 }
 

@@ -132,7 +132,7 @@ const isShopProduct = computed(() => !!props.price)
   font-weight: 700;
   color: #0f172a;
   line-height: 1.3;
-  font-family: 'Playfair Display', serif;
+  font-family: var(--font-heading);
   margin: 0;
 }
 

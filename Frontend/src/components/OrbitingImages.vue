@@ -27,7 +27,7 @@ const containerRef = ref<HTMLElement | null>(null)
     <div class="max-w-[1400px] mx-auto px-5 sm:px-8">
       <!-- Section Header -->
       <div class="text-center mb-20">
-        <h2 class="text-3xl md:text-4xl font-bold text-[#0F172A] mb-4" style="font-family: 'Playfair Display', serif;">
+        <h2 class="text-3xl md:text-4xl font-bold text-[#0F172A] mb-4" style="font-family: var(--font-heading);">
           Our Integrated Solutions
         </h2>
         <p class="text-lg text-[#334155] max-w-2xl mx-auto">

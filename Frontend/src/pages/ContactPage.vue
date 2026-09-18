@@ -44,7 +44,7 @@ const toggleFaq   = (i: number) => { expandedFaq.value = expandedFaq.value === i
 </script>
 
 <template>
-  <div class="overflow-x-hidden pt-[44px] md:pt-[48px]">
+  <div class="overflow-x-hidden pt-[54px]">
 
     <!-- ── HERO ── -->
     <section class="relative bg-white overflow-hidden py-20 md:py-24">

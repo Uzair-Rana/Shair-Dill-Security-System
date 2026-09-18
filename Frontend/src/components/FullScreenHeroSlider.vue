@@ -215,7 +215,7 @@ onMounted(() => {
   font-weight: 900;
   line-height: 1.1;
   margin-bottom: 20px;
-  font-family: 'Playfair Display', serif;
+  font-family: var(--font-heading);
   letter-spacing: -1px;
   text-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }

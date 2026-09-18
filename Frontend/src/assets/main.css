@@ -1,4 +1,3 @@
-@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap");
 @import "tailwindcss";
 
 /* ============================================================
@@ -31,25 +30,38 @@
   --color-slate-light-text: #94A3B8;
 
   /* Typography */
-  --font-display: "Playfair Display", Georgia, serif;
+  --font-heading: "Plus Jakarta Sans", "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-body: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-display: var(--font-heading);
   --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
     Oxygen, Ubuntu, Cantarell, sans-serif;
 }
 
-.announcement-bar {
-  height: 30px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: .65rem;
-  background: #283231;
-  color: #fff;
-  font: 400 12px/1 "Roboto", sans-serif;
+.ezviz-header { height: 54px; }
+
+/* ── Glass navbar ──────────────────────────────────────────── */
+.glass-nav {
+  background: rgba(255, 255, 255, .42);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  backdrop-filter: blur(20px) saturate(180%);
+  border-bottom: 1px solid rgba(255, 255, 255, .35);
 }
-.announcement-bar span { color: #bcd0ff; }
-.ezviz-header { height: 54px; background: #fff; border-bottom: 1px solid #ededed; }
-.header-icon { width: 34px; height: 34px; border: 0; background: transparent; color: #333; font-size: 23px; line-height: 1; cursor: pointer; }
-.header-icon:hover { color: #2666ff; }
+.glass-nav--scrolled {
+  background: rgba(255, 255, 255, .6);
+  box-shadow: 0 8px 32px rgba(15, 23, 42, .08);
+}
+.glass-nav--menu {
+  background: rgba(255, 255, 255, .82);
+  box-shadow: 0 16px 32px rgba(15, 23, 42, .12);
+}
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .glass-nav, .glass-nav--scrolled, .glass-nav--menu { background: rgba(255, 255, 255, .96); }
+}
+.header-icon { display: inline-flex; align-items: center; justify-content: center; width: 36px; height: 36px; border: 0; border-radius: 50%; background: transparent; color: #1e293b; cursor: pointer; transition: color 200ms ease, background 200ms ease; }
+.header-icon.hidden { display: none; }
+@media (min-width: 40rem) { .header-icon.sm\:inline-flex { display: inline-flex; } }
+.header-icon svg { width: 20px; height: 20px; }
+.header-icon:hover { color: #2666ff; background: rgba(255, 255, 255, .5); }
 .ezviz-footer { color: #2c2c2c; }
 
 /* ── Base ──────────────────────────────────────────────────── */
@@ -59,7 +71,7 @@
   }
 
   body {
-    font-family: "Roboto", var(--font-sans);
+    font-family: var(--font-body);
     color: #334155;
     background-color: #FFFFFF;
     -webkit-font-smoothing: antialiased;
@@ -77,12 +89,8 @@
     font-weight: 700;
     color: #0F172A;
     line-height: 1.25;
-    letter-spacing: -0.01em;
-  }
-
-  h1,
-  h2 {
-    font-family: "Roboto", sans-serif;
+    letter-spacing: -0.02em;
+    font-family: var(--font-heading);
   }
 
   strong,
@@ -156,5 +164,45 @@
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
+  }
+}
+
+/* ── Shiny metallic headings ───────────────────────────────── */
+@layer base {
+  :is(h1, h2):not(.slide-heading, .card-title, .text-white, [class*="text-[#E5E7EB]"]) {
+    background: linear-gradient(110deg,
+        #0F172A 0%, #1E293B 38%, #475569 44%,
+        #D4AF37 49%, #F6E7B0 50%, #D4AF37 51%,
+        #475569 56%, #1E293B 62%, #0F172A 100%);
+    background-size: 250% 100%;
+    background-position: 100% 0;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    padding-bottom: .08em;
+    animation: heading-shine 7s ease-in-out infinite;
+  }
+
+  :is(h1, h2):is(.text-white, [class*="text-[#E5E7EB]"]) {
+    background: linear-gradient(110deg,
+        #FFFFFF 0%, #E2E8F0 40%, #FFFFFF 48%, #F6E7B0 50%, #FFFFFF 52%,
+        #CBD5E1 60%, #FFFFFF 100%);
+    background-size: 250% 100%;
+    background-position: 100% 0;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    padding-bottom: .08em;
+    animation: heading-shine 7s ease-in-out infinite;
+  }
+
+  @keyframes heading-shine {
+    0%   { background-position: 100% 0; }
+    35%  { background-position: 0% 0; }
+    100% { background-position: 0% 0; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    :is(h1, h2) { animation: none !important; }
   }
 }

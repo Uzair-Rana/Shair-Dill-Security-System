@@ -99,14 +99,6 @@ watch(activePickTab, () => {
   pickOffset.value = 0
 })
 
-const quickCategories = [
-  { title: 'Indoor cameras', icon: '⌂' },
-  { title: 'Outdoor cameras', icon: '◉' },
-  { title: 'Battery cameras', icon: '↯' },
-  { title: 'Smart entry', icon: '⇥' },
-  { title: 'Smart home', icon: '⌁' },
-]
-
 const homeSceneTabs = ['Home', 'Living room', 'Kitchen', 'Home office', 'Room', 'Yard']
 const activeHomeScene = ref('Home')
 
@@ -116,13 +108,6 @@ const activeHomeScene = ref('Home')
   <div class="overflow-x-hidden">
 
     <HeroCardSlider @go-to-shop="emit('goToShop')" />
-
-    <section class="category-strip" aria-label="Shop by category">
-      <button v-for="category in quickCategories" :key="category.title" type="button" @click="emit('goToShop')">
-        <span class="category-icon">{{ category.icon }}</span>
-        <span>{{ category.title }}</span>
-      </button>
-    </section>
 
     <section class="family-map-section">
       <div class="family-map-shell">
@@ -237,7 +222,7 @@ const activeHomeScene = ref('Home')
 .family-card-copy p, .pick-copy p { color: #666; font-size: .9rem; line-height: 1.5; margin: 0 0 1.4rem; }
 .family-map-section { background: #fff; padding: 1.1rem 0 4.5rem; }
 .family-map-shell { width: min(1400px, calc(100% - 2rem)); margin: 0 auto; padding: .35rem; border: 1px solid #e4e8eb; border-radius: 10px; background: #fff; }
-.family-map-shell h2 { color: #1a1a1a; font-family: "Roboto", sans-serif; font-size: clamp(1.25rem, 2vw, 1.75rem); font-weight: 500; line-height: 1.2; margin: 0 0 1rem; }
+.family-map-shell h2 { color: #1a1a1a; font-family: var(--font-heading); font-size: clamp(1.25rem, 2vw, 1.75rem); font-weight: 500; line-height: 1.2; margin: 0 0 1rem; }
 .family-map-grid { display: grid; grid-template-columns: repeat(6, 1fr); grid-template-rows: clamp(195px, 28vw, 390px) clamp(155px, 22vw, 305px) clamp(155px, 22vw, 305px); gap: 5px; }
 .family-map-card { min-width: 0; min-height: 0; position: relative; overflow: hidden; border: 0; border-radius: 8px; padding: 0; background: #dceaf5; cursor: pointer; text-align: left; }
 .family-map-card img { width: 100%; height: 100%; display: block; object-fit: cover; transition: transform 450ms ease; }
@@ -257,7 +242,7 @@ const activeHomeScene = ref('Home')
 .pick-card:hover .pick-image img { transform: scale(1.05); }
 .pick-copy { padding: 1.5rem; }
 .picks-heading { margin-bottom: 1rem; }
-.picks-heading h2 { margin: 0 0 1.5rem; color: #182a34; font-family: Roboto, sans-serif; font-size: clamp(1.8rem, 3vw, 2.45rem); font-weight: 500; }
+.picks-heading h2 { margin: 0 0 1.5rem; color: #182a34; font-family: var(--font-heading); font-size: clamp(1.8rem, 3vw, 2.45rem); font-weight: 500; }
 .pick-tabs { display: flex; gap: .8rem; flex-wrap: wrap; }
 .pick-tabs button { border: 0; border-radius: 999px; padding: .5rem 1.05rem; color: #31404a; background: #f4f6fb; cursor: pointer; font-size: .7rem; transition: background .2s ease, color .2s ease, transform .2s ease; }
 .pick-tabs button:hover, .pick-tabs button.active { color: #fff; background: linear-gradient(180deg, #8faffd, #2666ff); transform: translateY(-1px); }
@@ -278,7 +263,7 @@ const activeHomeScene = ref('Home')
 .picks-arrows button { width: 2.3rem; height: 2.3rem; border: 0; border-radius: 50%; color: #2666ff; background: #f4f7fc; cursor: pointer; font-size: 1.05rem; }
 .action-section { padding: 6.5rem 0; color: #182a34; background: #f4f7f8; border-bottom: 1px solid #e3e9eb; }
 .action-heading { display: flex; align-items: end; justify-content: space-between; gap: 2rem; margin-bottom: 2.2rem; }
-.action-heading h2 { max-width: none; margin: 0; color: #182a34; font-family: Roboto, sans-serif; font-size: clamp(.85rem, 2.55vw, 2.35rem); font-weight: 500; line-height: 1.04; white-space: nowrap; }
+.action-heading h2 { max-width: none; margin: 0; color: #182a34; font-family: var(--font-heading); font-size: clamp(.85rem, 2.55vw, 2.35rem); font-weight: 500; line-height: 1.04; white-space: nowrap; }
 .action-explore { flex-shrink: 0; border: 0; padding: 0 0 .2rem; color: #446578; background: transparent; cursor: pointer; font-size: .75rem; white-space: nowrap; }
 .action-explore span { margin-left: .25rem; font-size: 1.1rem; }
 .action-gallery { display: grid; grid-template-columns: 1.65fr .82fr .82fr; grid-template-rows: 210px 210px; gap: .75rem; }
@@ -317,29 +302,6 @@ const activeHomeScene = ref('Home')
 .article-type { color: #888; margin-bottom: .45rem; }
 .article-arrow { color: #111; }
 
-.category-strip {
-  display: flex;
-  justify-content: center;
-  gap: clamp(1.5rem, 5vw, 5rem);
-  padding: 1.3rem 1.5rem;
-  background: #fff;
-  border-bottom: 1px solid #e7e7e3;
-}
-.category-strip button {
-  display: inline-flex;
-  align-items: center;
-  gap: .55rem;
-  border: 0;
-  padding: .25rem 0;
-  background: transparent;
-  color: #333;
-  cursor: pointer;
-  font-size: .8rem;
-  white-space: nowrap;
-  transition: color 180ms ease, transform 180ms ease;
-}
-.category-strip button:hover { color: #1676d2; transform: translateY(-2px); }
-.category-icon { display: inline-grid; place-items: center; width: 1.9rem; height: 1.9rem; border: 1px solid #b9c4ca; border-radius: 50%; color: #1676d2; font-size: 1rem; }
 
 .spotlight-section {
   display: grid;
@@ -356,7 +318,7 @@ const activeHomeScene = ref('Home')
 .dark-link span { margin-left: .7rem; }
 .home-scene-section { padding: 1rem 0 5rem; background: #fff; }
 .home-scene-heading { width: min(1400px, calc(100% - 1rem)); margin: 0 auto .9rem; }
-.home-scene-heading h2 { margin: 0 0 .3rem; color: #222; font-family: Roboto, sans-serif; font-size: clamp(1.7rem, 3vw, 2.4rem); font-weight: 500; line-height: 1.2; }
+.home-scene-heading h2 { margin: 0 0 .3rem; color: #222; font-family: var(--font-heading); font-size: clamp(1.7rem, 3vw, 2.4rem); font-weight: 500; line-height: 1.2; }
 .home-scene-heading p { margin: 0; color: #52636a; font-size: .82rem; }
 .home-scene-visual { width: min(1400px, calc(100% - 1rem)); height: clamp(500px, 52vw, 730px); position: relative; overflow: hidden; margin: auto; border-radius: 12px; background: #d5e5fb; }
 .home-scene-visual img { width: 100%; height: 100%; display: block; object-fit: cover; object-position: center bottom; }
@@ -535,8 +497,6 @@ const activeHomeScene = ref('Home')
   .family-map-battery { grid-column: span 2; }
   .family-map-entry { grid-column: span 1; grid-row: span 2; }
   .family-map-cleaning, .family-map-control { grid-column: span 1; }
-  .category-strip { justify-content: flex-start; overflow-x: auto; gap: 1.4rem; scrollbar-width: none; }
-  .category-strip::-webkit-scrollbar { display: none; }
   .spotlight-section { grid-template-columns: 1fr; }
   .spotlight-copy { padding: 4rem 1.5rem 2.5rem; }
   .spotlight-section > img { min-height: 300px; max-height: 360px; }

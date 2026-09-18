@@ -32,7 +32,7 @@ const legalLinks = [
 
         <!-- Company Info -->
         <div class="md:col-span-2">
-          <h3 class="text-base font-bold text-[#0f172a] mb-2" style="font-family: 'Playfair Display', serif;">
+          <h3 class="text-base font-bold text-[#0f172a] mb-2" style="font-family: var(--font-heading);">
             <span class="text-[#111111]">SDSSS</span> Ltd.
           </h3>
           <p class="text-[#475569] text-xs leading-relaxed">

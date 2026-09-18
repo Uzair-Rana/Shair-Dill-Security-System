@@ -33,7 +33,7 @@ watch(currentPage, async () => {
 
     <main class="flex-1">
       <HomePage    v-if="currentPage === 'home'"    @go-to-shop="navigate('shop')" />
-      <div         v-else-if="currentPage === 'shop'"    class="pt-[44px] md:pt-[48px]"><ShopPage /></div>
+      <div         v-else-if="currentPage === 'shop'"    class="pt-[54px]"><ShopPage /></div>
       <ServicesPage v-else-if="currentPage === 'services'" />
       <CareersPage v-else-if="currentPage === 'careers'" />
       <AboutPage   v-else-if="currentPage === 'about'" />

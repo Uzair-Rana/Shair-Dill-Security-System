@@ -39,7 +39,7 @@ const prefersReducedMotion = computed(() => {
     <div class="max-w-7xl mx-auto px-6">
       <!-- Section Header (Optional) -->
       <div class="text-center mb-12">
-        <h2 class="text-4xl font-bold text-slate-900 mb-2" style="font-family: 'Playfair Display', serif;">
+        <h2 class="text-4xl font-bold text-slate-900 mb-2" style="font-family: var(--font-heading);">
           Our Solutions
         </h2>
         <p class="text-lg text-slate-600">
@@ -189,7 +189,7 @@ const prefersReducedMotion = computed(() => {
   font-weight: 700;
   color: #0f172a;
   line-height: 1.3;
-  font-family: 'Playfair Display', serif;
+  font-family: var(--font-heading);
 }
 
 .card-description {

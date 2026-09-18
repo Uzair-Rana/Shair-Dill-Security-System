@@ -119,7 +119,7 @@ onMounted(() => {
   font-weight: 900;
   color: #0f172a;
   margin: 0 0 16px 0;
-  font-family: 'Playfair Display', serif;
+  font-family: var(--font-heading);
   letter-spacing: -0.5px;
 }
 
@@ -172,7 +172,7 @@ onMounted(() => {
   font-size: clamp(2.5rem, 8vw, 4rem);
   font-weight: 900;
   color: #0f172a;
-  font-family: 'Playfair Display', serif;
+  font-family: var(--font-heading);
   letter-spacing: -1px;
 }
 
@@ -182,7 +182,7 @@ onMounted(() => {
   font-weight: 700;
   color: #0f172a;
   margin: 0;
-  font-family: 'Playfair Display', serif;
+  font-family: var(--font-heading);
 }
 
 /* Stat Description */

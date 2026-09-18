@@ -39,19 +39,16 @@ const handleNav = (page: 'home' | 'shop' | 'services' | 'careers' | 'about' | 'c
 
 <template>
   <header class="fixed top-0 left-0 right-0 z-50">
-    <div class="announcement-bar">Smart security made simple <span>Explore SDSSS products</span></div>
     <div :class="[
-      'w-full transition-all duration-300 ezviz-header',
-      scrolled
-      ? 'bg-white border-b border-[#dfe5e8] shadow-sm'
-      : 'bg-white border-b border-[#edf0f1]',
+      'w-full transition-all duration-300 ezviz-header glass-nav',
+      scrolled && 'glass-nav--scrolled',
     ]">
       <div class="max-w-[1400px] mx-auto px-5 sm:px-8">
         <div class="flex items-center justify-between h-[54px]">
 
           <!-- Logo -->
           <button @click="handleNav('home')" class="flex items-center gap-3 flex-shrink-0" aria-label="Go to homepage">
-            <div class="w-10 h-10 overflow-hidden flex-shrink-0 p-1 bg-white">
+            <div class="w-10 h-10 overflow-hidden flex-shrink-0 p-1">
               <img :src="logoImg" alt="SDSSS Logo" class="w-full h-full object-contain" />
             </div>
             <span class="hidden sm:block text-[15px] font-medium tracking-tight">
@@ -76,9 +73,15 @@ const handleNav = (page: 'home' | 'shop' | 'services' | 'careers' | 'about' | 'c
 
           <!-- Right actions -->
           <div class="flex items-center gap-1">
-            <button type="button" aria-label="Search products" class="header-icon">⌕</button>
-            <button type="button" aria-label="Account" class="header-icon hidden xl:inline-flex">◯</button>
-            <button type="button" aria-label="Shopping cart" class="header-icon hidden xl:inline-flex">▢</button>
+            <button type="button" aria-label="Search products" class="header-icon" @click="handleNav('shop')">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+            </button>
+            <button type="button" aria-label="Account" class="header-icon hidden sm:inline-flex" @click="handleNav('contact')">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>
+            </button>
+            <button type="button" aria-label="Shopping cart" class="header-icon hidden sm:inline-flex" @click="handleNav('shop')">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="20" r="1.3"/><circle cx="18" cy="20" r="1.3"/><path d="M2.5 3h2.6l2.4 11.6a1.5 1.5 0 0 0 1.5 1.2h8.9a1.5 1.5 0 0 0 1.5-1.1L21.5 7H6"/></svg>
+            </button>
             <button @click="handleNav('shop')" class="hidden md:inline-flex items-center justify-center text-[13px] font-medium rounded-full px-5 py-2 transition-all duration-200 active:scale-[0.97] bg-[#2666ff] text-white hover:bg-[#1f55d8]">
               Shop now
             </button>
@@ -106,7 +109,7 @@ const handleNav = (page: 'home' | 'shop' | 'services' | 'careers' | 'about' | 'c
           leave-from-class="opacity-100 translate-y-0"
           leave-to-class="opacity-0 -translate-y-2"
         >
-          <div v-if="mobileOpen" class="lg:hidden py-4 border-t border-[#C5A059]/20 bg-white/95 backdrop-blur-md">
+          <div v-if="mobileOpen" class="lg:hidden py-4 border-t border-white/60 glass-nav glass-nav--menu">
             <nav class="flex flex-col mb-4">
               <button
                 v-for="link in navLinks" :key="link.label"

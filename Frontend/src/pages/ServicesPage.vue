@@ -65,10 +65,10 @@ const scrollToTop = () => window.scrollTo({ top: 0, behavior: 'smooth' })
 </template>
 
 <style scoped>
-.smart-home-page { padding-top: 84px; background: #fff; color: #333; }
-.smart-home-hero { min-height: min(820px, calc(100vh - 84px)); position: relative; overflow: hidden; background: #fff; }
+.smart-home-page { padding-top: 54px; background: #fff; color: #333; }
+.smart-home-hero { min-height: min(820px, calc(100vh - 54px)); position: relative; overflow: hidden; background: #fff; }
 .smart-home-heading { position: absolute; z-index: 2; top: clamp(3rem, 8vw, 7rem); left: max(1.2rem, calc((100% - 1400px) / 2)); }
-.smart-home-heading h1 { margin: 0 0 .4rem; color: #222; font-family: Roboto, sans-serif; font-size: clamp(1.7rem, 3vw, 2.4rem); font-weight: 500; line-height: 1.2; }
+.smart-home-heading h1 { margin: 0 0 .4rem; color: #222; font-family: var(--font-heading); font-size: clamp(1.7rem, 3vw, 2.4rem); font-weight: 500; line-height: 1.2; }
 .smart-home-heading p { margin: 0; color: #888; font-size: .82rem; }
 .smart-home-scene { position: absolute; inset: 10.5rem 0 0; display: flex; align-items: end; justify-content: center; overflow: hidden; background: linear-gradient(180deg, #faffff 0%, #f5fbfc 55%, #e8f1f2 100%); }
 .smart-home-scene::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 100%, rgba(93, 185, 196, .18), transparent 58%); }
@@ -81,7 +81,7 @@ const scrollToTop = () => window.scrollTo({ top: 0, behavior: 'smooth' })
 .smart-home-products { padding: 5.5rem max(1.2rem, calc((100% - 1200px) / 2)); background: #fff; }
 .smart-home-products-heading { display: flex; align-items: end; justify-content: space-between; gap: 2rem; margin-bottom: 2rem; }
 .eyebrow { margin: 0 0 .7rem; color: #2666ff; font-size: .7rem; font-weight: 700; letter-spacing: .15em; text-transform: uppercase; }
-.smart-home-products h2 { margin: 0; color: #222; font-family: Roboto, sans-serif; font-size: clamp(2rem, 4vw, 3.2rem); font-weight: 400; line-height: 1; }
+.smart-home-products h2 { margin: 0; color: #222; font-family: var(--font-heading); font-size: clamp(2rem, 4vw, 3.2rem); font-weight: 400; line-height: 1; }
 .smart-home-products-heading > p { max-width: 300px; margin: 0; color: #777; font-size: .9rem; line-height: 1.6; }
 .smart-home-product-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
 .smart-home-product-card { overflow: hidden; border: 1px solid #e7ecee; background: #fff; }

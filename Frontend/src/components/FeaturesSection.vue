@@ -102,7 +102,7 @@ const features: Feature[] = [
   font-weight: 900;
   color: #0f172a;
   margin: 0 0 16px 0;
-  font-family: 'Playfair Display', serif;
+  font-family: var(--font-heading);
   letter-spacing: -0.5px;
 }
 
@@ -218,7 +218,7 @@ const features: Feature[] = [
   font-weight: 700;
   color: #0f172a;
   margin: 0;
-  font-family: 'Playfair Display', serif;
+  font-family: var(--font-heading);
   transform-style: preserve-3d;
   transform: translateZ(15px);
   transition: all 0.3s ease;

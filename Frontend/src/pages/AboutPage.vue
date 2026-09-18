@@ -114,7 +114,7 @@ const team = [
 </script>
 
 <template>
-  <div class="overflow-x-hidden pt-[44px] md:pt-[48px]">
+  <div class="overflow-x-hidden pt-[54px]">
 
     <!-- ── HERO ── -->
     <section class="relative bg-white overflow-hidden py-20 md:py-28">
@@ -212,7 +212,7 @@ const team = [
             </div>
 
             <!-- Name -->
-            <h3 class="text-xl font-bold text-[#0f172a] mb-1" style="font-family: 'Playfair Display', serif;">
+            <h3 class="text-xl font-bold text-[#0f172a] mb-1" style="font-family: var(--font-heading);">
               {{ member.name }}
             </h3>
 

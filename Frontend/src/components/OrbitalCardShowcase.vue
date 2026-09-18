@@ -367,7 +367,7 @@ onUnmounted(() => {
   font-weight: 700;
   color: #0f172a;
   margin: 0;
-  font-family: 'Playfair Display', serif;
+  font-family: var(--font-heading);
   line-height: 1.4;
   letter-spacing: -0.3px;
   transition: color 0.3s ease;
@@ -397,7 +397,7 @@ onUnmounted(() => {
   letter-spacing: 0.3px;
   text-transform: uppercase;
   font-size: 0.8rem;
-  font-family: 'Inter', sans-serif;
+  font-family: var(--font-body);
 }
 
 @keyframes fadeInOut {
