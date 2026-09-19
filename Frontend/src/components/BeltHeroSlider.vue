@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 
 interface Slide {
   id: number
-  image: string
+  image?: string
+  video?: string
   heading: string
   description: string
   ctaText: string
@@ -12,39 +13,50 @@ interface Slide {
 
 interface Props {
   slides: Slide[]
-  duration?: number // animation duration in seconds (default 60)
+  duration?: number
 }
 
 const props = withDefaults(defineProps<Props>(), {
   duration: 60,
 })
 
-// Duplicate slides for seamless loop
 const duplicatedSlides = computed(() => [...props.slides, ...props.slides])
-
-// Calculate animation duration
 const animationDuration = computed(() => `${props.duration}s`)
-
-// Respect prefers-reduced-motion
 const prefersReducedMotion = computed(() => {
   if (typeof window === 'undefined') return false
   return window.matchMedia('(prefers-reduced-motion: reduce)').matches
+})
+
+// Play all video elements on mount
+const beltTrackRef = ref<HTMLElement | null>(null)
+onMounted(() => {
+  setTimeout(() => {
+    const videos = beltTrackRef.value?.querySelectorAll('video') ?? []
+    videos.forEach((v) => {
+      v.muted = true
+      v.play().catch(() => {})
+    })
+  }, 200)
 })
 </script>
 
 <template>
   <section class="belt-hero-slider" :class="{ 'motion-disabled': prefersReducedMotion }">
-    <!-- Belt Track - All slides in continuous horizontal strip -->
-    <div class="belt-track" :style="{ '--animation-duration': animationDuration } as any">
-      <!-- Slides -->
+    <div ref="beltTrackRef" class="belt-track" :style="{ '--animation-duration': animationDuration } as any">
       <div v-for="(slide, index) in duplicatedSlides" :key="`${slide.id}-${index}`" class="belt-slide">
-        <!-- Slide Background Image -->
         <div class="slide-background">
-          <img :src="slide.image" :alt="slide.heading" class="slide-image" />
+          <video
+            v-if="slide.video"
+            :src="slide.video"
+            class="slide-image"
+            autoplay
+            muted
+            loop
+            playsinline
+          ></video>
+          <img v-else :src="slide.image" :alt="slide.heading" class="slide-image" />
           <div class="slide-overlay"></div>
         </div>
-
-        <!-- Slide Content -->
         <div class="slide-content">
           <div class="content-wrapper">
             <h2 class="slide-heading">{{ slide.heading }}</h2>
@@ -57,8 +69,6 @@ const prefersReducedMotion = computed(() => {
         </div>
       </div>
     </div>
-
-    <!-- Optional: Scroll Hint -->
     <div class="scroll-hint">
       <p>Hover to pause • Continuous motion</p>
     </div>

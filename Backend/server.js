@@ -2,6 +2,7 @@ import express from 'express'
 import cors from 'cors'
 import dotenv from 'dotenv'
 import mongoose from 'mongoose'
+import { MongoMemoryServer } from 'mongodb-memory-server'
 
 // Import routes
 import heroSlidesRoutes from './routes/heroSlides.js'
@@ -16,24 +17,39 @@ const app = express()
 const PORT = process.env.PORT || 5000
 const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/sdsss'
 
+let memoryMongo = null
+
+async function connectDatabase() {
+  try {
+    let uri = MONGODB_URI
+
+    if (!process.env.MONGODB_URI) {
+      try {
+        memoryMongo = await MongoMemoryServer.create()
+        uri = memoryMongo.getUri()
+        console.log('✓ Using in-memory MongoDB for local development')
+      } catch (error) {
+        console.warn('MongoMemoryServer unavailable, falling back to localhost MongoDB:', error.message)
+      }
+    }
+
+    await mongoose.connect(uri, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    })
+    console.log('✓ Connected to MongoDB')
+  } catch (err) {
+    console.error('✗ MongoDB connection error:', err.message)
+    process.exit(1)
+  }
+}
+
 // Middleware
 app.use(cors())
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
-// MongoDB Connection
-mongoose
-  .connect(MONGODB_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
-  .then(() => {
-    console.log('✓ Connected to MongoDB')
-  })
-  .catch((err) => {
-    console.error('✗ MongoDB connection error:', err.message)
-    process.exit(1)
-  })
+await connectDatabase()
 
 // Routes
 app.use('/api/hero-slides', heroSlidesRoutes)

@@ -1,31 +1,38 @@
 <script setup lang="ts">
-import { computed, onMounted, onUnmounted, ref } from 'vue'
-import cctv from '../assets/products/CCTV_live_view_grid_mockup_202609052309.jpeg'
+import { computed, onMounted, onUnmounted, ref, watch } from 'vue'
 import ptz from '../assets/products/PTZ_speed_dome_camera_recording_202609052309.jpeg'
 import biometric from '../assets/products/Biometric_turnstile_gate_installed_202609052309.jpeg'
 import doorController from '../assets/products/Smart_Touchscreen_Door_Controller_202609052309.jpeg'
 
 interface Slide {
   id: number
-  image: string
+  image?: string
+  video?: string
   title: string
   subtitle: string
   categories: string[]
 }
 
 const slides: Slide[] = [
-  { id: 1, image: cctv, title: 'See smarter. Live safer.', subtitle: 'Connected cameras that bring every corner of home and business into view.', categories: ['Indoor cameras', 'Outdoor cameras', 'AI detection'] },
+  { id: 1, image: biometric, title: 'Advanced Security Solutions', subtitle: 'Cutting-edge biometric turnstile systems and access control technology delivering unmatched facility protection.', categories: ['Biometric access', 'Turnstile systems', 'Smart entry'] },
   { id: 2, image: ptz, title: 'Protection that follows you.', subtitle: 'Pan, tilt and zoom coverage with intelligent tracking, day or night.', categories: ['PTZ cameras', '4K clarity', 'Night vision'] },
-  { id: 3, image: biometric, title: 'A smarter way to enter.', subtitle: 'Modern access control for the people, places and moments that matter.', categories: ['Smart entry', 'Biometric access', 'Remote unlock'] },
-  { id: 4, image: doorController, title: 'One app. Your whole space.', subtitle: 'Manage cameras, doors and alerts from wherever life takes you.', categories: ['SDSSS app', 'Cloud storage', 'Instant alerts'] },
+  { id: 3, image: doorController, title: 'One app. Your whole space.', subtitle: 'Manage cameras, doors and alerts from wherever life takes you.', categories: ['SDSSS app', 'Cloud storage', 'Instant alerts'] },
 ]
 
 const emit = defineEmits<{ goToShop: [] }>()
 const activeIndex = ref(0)
 const isPaused = ref(false)
+const carouselRef = ref<HTMLElement | null>(null)
 let autoplayTimer: ReturnType<typeof setInterval> | null = null
 
 const activeSlide = computed(() => slides[activeIndex.value] ?? slides[0]!)
+
+const tryPlayVideo = () => {
+  setTimeout(() => {
+    const v = carouselRef.value?.querySelector('video') as HTMLVideoElement | null
+    if (v) { v.muted = true; v.play().catch(() => {}) }
+  }, 100)
+}
 
 const startAutoplay = () => {
   if (autoplayTimer) clearInterval(autoplayTimer)
@@ -34,19 +41,35 @@ const startAutoplay = () => {
   }, 5000)
 }
 
-onMounted(startAutoplay)
+watch(activeIndex, () => {
+  if (activeSlide.value.video) tryPlayVideo()
+})
+
+onMounted(() => {
+  startAutoplay()
+  if (activeSlide.value.video) tryPlayVideo()
+})
+
 onUnmounted(() => {
   if (autoplayTimer) clearInterval(autoplayTimer)
 })
 </script>
 
 <template>
-  <section class="reference-carousel" @mouseenter="isPaused = true" @mouseleave="isPaused = false">
+  <section class="reference-carousel" ref="carouselRef" @mouseenter="isPaused = true" @mouseleave="isPaused = false">
     <Transition name="hero-slide">
       <div :key="activeSlide.id" class="reference-slide">
-        <img class="reference-slide-image" :src="activeSlide.image" :alt="activeSlide.title" />
+        <video
+          v-if="activeSlide.video"
+          :src="activeSlide.video"
+          class="reference-slide-image"
+          autoplay
+          muted
+          loop
+          playsinline
+        ></video>
+        <img v-else class="reference-slide-image" :src="activeSlide.image" :alt="activeSlide.title" />
         <div class="reference-overlay"></div>
-
       </div>
     </Transition>
   </section>
