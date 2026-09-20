@@ -70,17 +70,32 @@ onBeforeUnmount(() => {
   cancelAnimationFrame(rafId)
 })
 
-const onMouseEnter = () => {
-  videoRef.value?.pause()
-}
+// Click toggles playback; `isPaused` drives the overlay indicator.
+const isPaused = ref(false)
 
-const onMouseLeave = () => {
-  videoRef.value?.play().catch(() => {})
+const togglePlayback = () => {
+  const video = videoRef.value
+  if (!video) return
+
+  if (video.paused) {
+    video.play().then(() => { isPaused.value = false }).catch(() => {})
+  } else {
+    video.pause()
+    isPaused.value = true
+  }
 }
 </script>
 
 <template>
-  <section class="hero-video-section" @mouseenter="onMouseEnter" @mouseleave="onMouseLeave">
+  <section
+    class="hero-video-section"
+    role="button"
+    tabindex="0"
+    :aria-label="isPaused ? 'Play background video' : 'Pause background video'"
+    @click="togglePlayback"
+    @keydown.enter.prevent="togglePlayback"
+    @keydown.space.prevent="togglePlayback"
+  >
     <video
       ref="videoRef"
       :src="heroVideo"
@@ -94,11 +109,17 @@ const onMouseLeave = () => {
     <div class="hero-sweep-clip" aria-hidden="true">
       <div ref="sweepRef" class="hero-sweep"></div>
     </div>
+    <Transition name="hero-badge">
+      <div v-if="isPaused" class="hero-paused-badge" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z" /></svg>
+      </div>
+    </Transition>
   </section>
 </template>
 
 <style scoped>
 .hero-video-section {
+  cursor: pointer;
   position: relative;
   width: 100%;
   height: 100vh;
@@ -150,10 +171,35 @@ const onMouseLeave = () => {
   will-change: transform, opacity;
 }
 
+/* Play glyph shown while the video is paused. */
+.hero-paused-badge {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  translate: -50% -50%;
+  display: grid;
+  place-items: center;
+  width: 84px;
+  height: 84px;
+  border-radius: 50%;
+  background: rgba(15, 23, 42, .55);
+  backdrop-filter: blur(6px);
+  color: #fff;
+  pointer-events: none;
+}
+.hero-paused-badge svg { width: 38px; height: 38px; margin-left: 4px; }
+
+.hero-badge-enter-active, .hero-badge-leave-active { transition: opacity 220ms ease, scale 220ms cubic-bezier(.22,1,.36,1); }
+.hero-badge-enter-from, .hero-badge-leave-to { opacity: 0; scale: .8; }
+
+.hero-video-section:focus-visible { outline: 3px solid #5FA8E0; outline-offset: -3px; }
+
 @media (prefers-reduced-motion: reduce) {
   .hero-flash,
   .hero-sweep-clip {
     display: none;
   }
+  .hero-badge-enter-active, .hero-badge-leave-active { transition: opacity 220ms ease; }
+  .hero-badge-enter-from, .hero-badge-leave-to { scale: 1; }
 }
 </style>
