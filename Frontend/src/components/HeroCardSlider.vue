@@ -1,87 +1,82 @@
 <script setup lang="ts">
 import { computed, onMounted, onUnmounted, ref, watch } from 'vue'
-import cctv from '../assets/products/CCTV_live_view_grid_mockup_202609052309.jpeg'
-import ptz from '../assets/products/PTZ_speed_dome_camera_recording_202609052309.jpeg'
-import biometric from '../assets/products/Biometric_turnstile_gate_installed_202609052309.jpeg'
-import doorController from '../assets/products/Smart_Touchscreen_Door_Controller_202609052309.jpeg'
-
-import batteryCam from '../assets/Card products/Security_CCTV_camera_floating_2K_20260911101923.jpeg'
+import ptz from '../assets/products/hikvision-ds-2de4225iw-de.jpg'
+import biometric from '../assets/products/ChatGPT Image Sep 20, 2026, 02_36_23 AM.png'
+import doorController from '../assets/products/ChatGPT Image Sep 20, 2026, 03_08_46 AM.png'
 
 interface Slide {
   id: number
-  image: string
-  label: string
-  icon: string
+  image?: string
+  video?: string
   title: string
+  subtitle: string
+  categories: string[]
 }
 
 const slides: Slide[] = [
-  { id: 1, image: cctv, label: 'Indoor cameras', icon: '⌂', title: 'See smarter. Live safer.' },
-  { id: 2, image: ptz, label: 'Outdoor cameras', icon: '◉', title: 'Protection that follows you.' },
-  { id: 3, image: batteryCam, label: 'Battery cameras', icon: '↯', title: 'Wire-free security, anywhere.' },
-  { id: 4, image: biometric, label: 'Smart entry', icon: '⇥', title: 'A smarter way to enter.' },
-  { id: 5, image: doorController, label: 'Smart home', icon: '⌁', title: 'One app. Your whole space.' },
+  { id: 1, image: biometric, title: 'Advanced Security Solutions', subtitle: 'Cutting-edge biometric turnstile systems and access control technology delivering unmatched facility protection.', categories: ['Biometric access', 'Turnstile systems', 'Smart entry'] },
+  { id: 2, image: ptz, title: 'Protection that follows you.', subtitle: 'Pan, tilt and zoom coverage with intelligent tracking, day or night.', categories: ['PTZ cameras', '4K clarity', 'Night vision'] },
+  { id: 3, image: doorController, title: 'One app. Your whole space.', subtitle: 'Manage cameras, doors and alerts from wherever life takes you.', categories: ['SDSSS app', 'Cloud storage', 'Instant alerts'] },
 ]
 
 const emit = defineEmits<{ goToShop: [] }>()
 const activeIndex = ref(0)
 const isPaused = ref(false)
+const carouselRef = ref<HTMLElement | null>(null)
+let autoplayTimer: ReturnType<typeof setInterval> | null = null
 
 const activeSlide = computed(() => slides[activeIndex.value] ?? slides[0]!)
 
-const next = () => {
-  activeIndex.value = (activeIndex.value + 1) % slides.length
-}
-
-let autoplayTimer: ReturnType<typeof setTimeout> | null = null
-
-const stopAutoplay = () => {
-  if (autoplayTimer) clearTimeout(autoplayTimer)
-  autoplayTimer = null
+const tryPlayVideo = () => {
+  setTimeout(() => {
+    const v = carouselRef.value?.querySelector('video') as HTMLVideoElement | null
+    if (v) { v.muted = true; v.play().catch(() => {}) }
+  }, 100)
 }
 
 const startAutoplay = () => {
-  stopAutoplay()
-  if (!isPaused.value) autoplayTimer = setTimeout(next, 5000)
+  if (autoplayTimer) clearInterval(autoplayTimer)
+  autoplayTimer = setInterval(() => {
+    if (!isPaused.value) activeIndex.value = (activeIndex.value + 1) % slides.length
+  }, 5000)
 }
 
-watch([activeIndex, isPaused], startAutoplay)
-onMounted(startAutoplay)
-onUnmounted(stopAutoplay)
+watch(activeIndex, () => {
+  if (activeSlide.value.video) tryPlayVideo()
+})
 
-const select = (index: number) => {
-  if (index === activeIndex.value) emit('goToShop')
-  else activeIndex.value = index
-}
+onMounted(() => {
+  startAutoplay()
+  if (activeSlide.value.video) tryPlayVideo()
+})
+
+onUnmounted(() => {
+  if (autoplayTimer) clearInterval(autoplayTimer)
+})
 </script>
 
 <template>
-  <section class="reference-carousel" @mouseenter="isPaused = true" @mouseleave="isPaused = false">
+  <section class="reference-carousel" ref="carouselRef" @mouseenter="isPaused = true" @mouseleave="isPaused = false">
     <Transition name="hero-slide">
       <div :key="activeSlide.id" class="reference-slide">
-        <img class="reference-slide-image" :src="activeSlide.image" :alt="activeSlide.title" />
+        <video
+          v-if="activeSlide.video"
+          :src="activeSlide.video"
+          class="reference-slide-image"
+          autoplay
+          muted
+          loop
+          playsinline
+        ></video>
+        <img v-else class="reference-slide-image" :src="activeSlide.image" :alt="activeSlide.title" />
         <div class="reference-overlay"></div>
       </div>
     </Transition>
-
-    <nav class="hero-categories" aria-label="Shop by category">
-      <button
-        v-for="(slide, index) in slides"
-        :key="slide.id"
-        type="button"
-        :class="['hero-category', { active: index === activeIndex }]"
-        :aria-current="index === activeIndex ? 'true' : undefined"
-        @click="select(index)"
-      >
-        <span class="hero-category-icon" aria-hidden="true">{{ slide.icon }}</span>
-        <span class="hero-category-label">{{ slide.label }}</span>
-      </button>
-    </nav>
   </section>
 </template>
 
 <style scoped>
-.reference-carousel { position: relative; margin-top: 0; height: clamp(560px, 100vh, 760px); overflow: hidden; background: #fff; color: #12232c; }
+.reference-carousel { position: relative; margin-top: 84px; height: clamp(520px, calc(100vh - 84px), 700px); overflow: hidden; background: #fff; color: #12232c; }
 .reference-slide, .reference-slide-image, .reference-overlay, .reference-curve { position: absolute; inset: 0; }
 .reference-slide { overflow: hidden; }
 .reference-slide-image { inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center; }
@@ -103,17 +98,11 @@ const select = (index: number) => {
 .reference-dots { display: flex; gap: .4rem; }
 .reference-dots button { width: 7px; height: 7px; padding: 0; border: 0; border-radius: 50%; background: #b9c8ce; cursor: pointer; }
 .reference-dots button.active { width: 24px; border-radius: 5px; background: #1676d2; }
-.hero-categories { position: absolute; z-index: 5; left: clamp(1rem, 4vw, 3rem); bottom: clamp(1rem, 4vh, 2.5rem); display: flex; flex-direction: column; gap: .15rem; }
-.hero-category { position: relative; display: flex; align-items: center; gap: .55rem; padding: .25rem 0; border: 0; background: transparent; color: #fff; opacity: .55; font-size: .8rem; font-weight: 500; letter-spacing: .01em; text-align: left; white-space: nowrap; cursor: pointer; text-shadow: 0 1px 2px rgba(0, 0, 0, .55), 0 0 12px rgba(0, 0, 0, .4); transition: opacity 250ms ease, transform 250ms ease; }
-.hero-category:hover { opacity: .85; }
-.hero-category.active { opacity: 1; font-weight: 600; transform: translateX(3px); }
-.hero-category-icon { display: inline-grid; place-items: center; width: 1rem; font-size: .8rem; opacity: .75; }
-.hero-category.active .hero-category-icon { color: #F6E7B0; opacity: 1; }
 .hero-slide-enter-active, .hero-slide-leave-active { transition: transform 650ms ease; }
 .hero-slide-enter-from { transform: translateX(100%); }
 .hero-slide-leave-to { transform: translateX(-100%); }
 @media (max-width: 768px) {
-  .reference-carousel { margin-top: 0; height: 700px; }
+  .reference-carousel { margin-top: 84px; height: 660px; }
   .reference-slide-image { inset: 0; width: 100%; height: 100%; object-position: center; }
   .reference-overlay { background: transparent; }
   .reference-content { left: 1.5rem; right: 1.5rem; top: auto; bottom: 5rem; width: auto; transform: none; }
@@ -121,6 +110,5 @@ const select = (index: number) => {
   .reference-categories { margin-top: 2rem; }
   .reference-controls { right: 1.5rem; bottom: 2.5rem; }
   .reference-status { left: 1.5rem; right: auto; bottom: 2.8rem; }
-  .hero-category { font-size: .74rem; }
 }
 </style>

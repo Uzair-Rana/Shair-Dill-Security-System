@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import smartHomeImage from '../assets/products/Security_system_product_array_la…_202609052309.jpeg'
-import cameraImage from '../assets/products/Smart_indoor_security_camera_202609052309.jpeg'
-import entryImage from '../assets/products/Smart_Touchscreen_Door_Controller_202609052309.jpeg'
-import sensorImage from '../assets/products/Motion_sensor_product_photo_202609052309.jpeg'
+import smartHomeImage from '../assets/products/ChatGPT Image Sep 20, 2026, 02_58_15 AM.png'
+import cameraImage from '../assets/products/sony-snc-ch160-ip-camera.jpg'
+import entryImage from '../assets/products/ChatGPT Image Sep 20, 2026, 03_08_46 AM.png'
+import sensorImage from '../assets/products/images (17).jpg'
 import { ref } from 'vue'
 
 const smartHomeCategories = [

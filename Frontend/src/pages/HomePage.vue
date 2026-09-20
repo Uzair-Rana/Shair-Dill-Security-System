@@ -1,32 +1,36 @@
 <script setup lang="ts">
-import HeroCardSlider from '../components/HeroCardSlider.vue'
+import HeroSection from '../components/HeroSection.vue'
 import { computed, ref, watch } from 'vue'
-import cctvImage from '../assets/products/CCTV_live_view_grid_mockup_202609052309.jpeg'
-import ptzImage from '../assets/products/PTZ_speed_dome_camera_recording_202609052309.jpeg'
-import biometricImage from '../assets/products/Biometric_scanner_terminal_photo…_202609052309.jpeg'
-import doorbellImage from '../assets/products/Video_doorbell_with_camera_mockup_202609052309.jpeg'
-import doorControllerImage from '../assets/products/Smart_Touchscreen_Door_Controller_202609052309.jpeg'
-import smartHomeImage from '../assets/products/Security_system_product_array_la…_202609052309.jpeg'
-import indoorCameraImage from '../assets/products/Smart_indoor_security_camera_202609052309.jpeg'
-import turretCameraImage from '../assets/products/Turret_camera_macro_studio_photo…_202609052309.jpeg'
-import outdoorCameraImage from '../assets/products/Wireless_security_beam_detector_…_202609052309.jpeg'
-import batteryCameraImage from '../assets/products/ANPR_camera_mounted_on_arm_202609052309.jpeg'
-import smartCleaningImage from '../assets/products/Motion_sensor_product_photo_202609052309.jpeg'
-import smartControlImage from '../assets/products/Smart_security_hub_panel_armed_202609052309.jpeg'
-import alarmImage from '../assets/products/Alarm_strobe_and_siren_combo_202609052309.jpeg'
-import lockImage from '../assets/products/Magnetic_door_lock_access_system_202609052309.jpeg'
-import rfidImage from '../assets/products/RFID_card_reader_panel_mounted_202609052309.jpeg'
-import biometricTurnstileImage from '../assets/products/Biometric_turnstile_gate_installed_202609052309.jpeg'
-import anprImage from '../assets/products/ANPR_camera_mounted_on_arm_202609052309.jpeg'
+
+// Import new images
+import cctvPackage from '../assets/products/CCTV-camera-price-in-lahore-4-FHD-CCTV-Cameras-Package-hikvisionstore.pk_-1200x1108.jpg'
+import ptzCamera from '../assets/products/hikvision-ds-2de4225iw-de.jpg'
+import biometricScanner from '../assets/products/ChatGPT Image Sep 20, 2026, 02_36_23 AM.png'
+import doorbell from '../assets/products/61XkDOqfaOL.jpg'
+import doorController from '../assets/products/ChatGPT Image Sep 20, 2026, 03_08_46 AM.png'
+import smartHome from '../assets/products/ChatGPT Image Sep 20, 2026, 02_58_15 AM.png'
+import indoorCamera from '../assets/products/sony-snc-ch160-ip-camera.jpg'
+import turretCamera from '../assets/products/DS-2CE16D0T-EXIPF-3.6mm-price-in-pakistan-hikvisionstore.pk_.png'
+import outdoorCamera from '../assets/products/remote-control-2mp-samsung-cctv-camera-for-household-surveillance-269.jpg'
+import batteryCamera from '../assets/products/images (4).jpg'
+import alarm from '../assets/products/BOS-NBE-3703-AL.webp'
+import smartControl from '../assets/products/ChatGPT Image Sep 20, 2026, 02_47_35 AM.png'
+import lockImage from '../assets/products/images (15).jpg'
+import rfidReader from '../assets/products/images (19).jpg'
+import turnstile from '../assets/products/ChatGPT Image Sep 20, 2026, 03_21_04 AM.png'
+import anprCamera from '../assets/products/images (10).jpg'
+import guardService from '../assets/products/ChatGPT Image Sep 20, 2026, 02_39_32 AM.png'
+import motionSensor from '../assets/products/images (17).jpg'
+
 const emit = defineEmits<{ goToShop: [] }>()
 
 const familyMap = [
-  { title: 'Indoor Security Cameras', image: cctvImage, className: 'family-map-indoor' },
-  { title: 'Outdoor Security Cameras', image: outdoorCameraImage, className: 'family-map-outdoor' },
-  { title: 'Battery Cameras', image: batteryCameraImage, className: 'family-map-battery' },
-  { title: 'Smart Entry', image: doorControllerImage, className: 'family-map-entry' },
-  { title: 'Smart Cleaning', image: smartCleaningImage, className: 'family-map-cleaning' },
-  { title: 'Smart Control', image: smartControlImage, className: 'family-map-control' },
+  { title: 'Indoor Security Cameras', image: indoorCamera, className: 'family-map-indoor' },
+  { title: 'Outdoor Security Cameras', image: outdoorCamera, className: 'family-map-outdoor' },
+  { title: 'PTZ Cameras', image: ptzCamera, className: 'family-map-battery' },
+  { title: 'Smart Entry & Access Control', image: doorController, className: 'family-map-entry' },
+  { title: 'Alarm Systems', image: alarm, className: 'family-map-cleaning' },
+  { title: 'Smart Monitoring', image: smartControl, className: 'family-map-control' },
 ]
 
 interface PickProduct {
@@ -36,50 +40,44 @@ interface PickProduct {
   tag?: string
 }
 
-const pickTabs = ['Bestsellers', '4G Cameras', 'Smart locks', 'Smart Entry Products']
+const pickTabs = ['Bestsellers', 'PTZ Cameras', 'Smart locks', 'Access Control']
 const activePickTab = ref('Bestsellers')
 const pickOffset = ref(0)
 
 const pickProducts: Record<string, PickProduct[]> = {
   Bestsellers: [
-    { name: 'C1C', note: 'Sharp eyesight like an owl.', image: indoorCameraImage, tag: 'New' },
-    { name: 'H1C', note: 'Safety and peace of mind guaranteed in a glance.', image: cctvImage },
-    { name: 'C6N', note: 'You are protected day and night.', image: turretCameraImage },
-    { name: 'H6C', note: 'See more broadly, protect better, care more.', image: ptzImage },
-    { name: 'Smart Doorbell', note: 'See and speak to visitors from anywhere.', image: doorbellImage },
-    { name: 'Home Alarm Kit', note: 'Fast alerts for the moments that matter.', image: alarmImage },
-    { name: 'Smart Hub', note: 'Bring every security device together.', image: smartControlImage },
-    { name: 'Indoor 2K Camera', note: 'Clear detail for every room.', image: indoorCameraImage },
+    { name: 'CCTV Package 4Ch', note: 'Complete 4-camera surveillance system.', image: cctvPackage, tag: 'Best Value' },
+    { name: 'PTZ Speed Dome', note: 'Pan-tilt-zoom camera with night vision.', image: ptzCamera, tag: 'New' },
+    { name: 'Indoor HD Camera', note: 'Crystal clear indoor monitoring.', image: indoorCamera },
+    { name: 'Turret Camera', note: 'Weather-resistant outdoor protection.', image: turretCamera },
+    { name: 'Biometric Scanner', note: 'Fast and secure fingerprint access.', image: biometricScanner, tag: 'Popular' },
+    { name: 'Smart Control Hub', note: 'Centralized security management.', image: smartControl },
+    { name: 'Motion Detector', note: 'Reliable intrusion detection.', image: motionSensor },
+    { name: 'Alarm System', note: 'Instant alerts when you need them.', image: alarm },
   ],
-  '4G Cameras': [
-    { name: '4G PTZ Camera', note: 'Watch wide areas without fixed internet.', image: ptzImage, tag: '4G' },
-    { name: '4G ANPR Camera', note: 'Capture vehicle plates from a distance.', image: anprImage },
-    { name: '4G Outdoor Camera', note: 'Reliable coverage for remote places.', image: outdoorCameraImage },
-    { name: '4G Battery Camera', note: 'Flexible security where power is limited.', image: batteryCameraImage },
-    { name: '4G Turret Camera', note: 'Night-ready protection with a clear view.', image: turretCameraImage },
-    { name: '4G Live Monitor', note: 'Check your site live from your phone.', image: cctvImage },
-    { name: '4G Smart Camera', note: 'Intelligent alerts wherever you need them.', image: smartControlImage },
-    { name: '4G Dome Camera', note: 'Discreet, weather-ready coverage.', image: cctvImage },
+  'PTZ Cameras': [
+    { name: 'Hikvision PTZ Dome', note: 'Professional pan-tilt-zoom camera.', image: ptzCamera, tag: '4MP' },
+    { name: 'Outdoor PTZ', note: 'All-weather PTZ surveillance.', image: outdoorCamera },
+    { name: 'Indoor PTZ', note: 'Smart tracking for indoor spaces.', image: indoorCamera },
+    { name: 'ANPR PTZ Camera', note: 'License plate recognition camera.', image: anprCamera, tag: 'AI' },
+    { name: 'Samsung PTZ', note: 'Remote control surveillance camera.', image: outdoorCamera },
+    { name: 'Battery PTZ Camera', note: 'Wire-free PTZ monitoring.', image: batteryCamera },
   ],
   'Smart locks': [
-    { name: 'Smart Door Lock', note: 'Keyless entry for a more secure home.', image: lockImage, tag: 'Popular' },
-    { name: 'Magnetic Door Lock', note: 'Strong, dependable access control.', image: lockImage },
-    { name: 'RFID Card Reader', note: 'Simple access for teams and visitors.', image: rfidImage },
-    { name: 'Biometric Lock', note: 'Fast entry with verified identity.', image: biometricImage },
-    { name: 'Touchscreen Controller', note: 'Manage your door from one place.', image: doorControllerImage },
-    { name: 'Key Fob Access Kit', note: 'Convenient credentials for everyday use.', image: smartControlImage },
-    { name: 'Smart Entry Panel', note: 'Modern access for homes and offices.', image: doorControllerImage },
-    { name: 'Video Door Lock', note: 'Know who is at the door before opening.', image: doorbellImage },
+    { name: 'Smart Door Lock', note: 'Keyless entry with mobile control.', image: lockImage, tag: 'Popular' },
+    { name: 'Biometric Lock', note: 'Fingerprint-based secure entry.', image: biometricScanner },
+    { name: 'RFID Card Reader', note: 'Simple card-based access control.', image: rfidReader },
+    { name: 'Digital Keypad Lock', note: 'PIN code entry system.', image: lockImage },
+    { name: 'Smart Deadbolt', note: 'Heavy-duty electronic lock.', image: lockImage },
+    { name: 'Video Door Lock', note: 'See who's at the door before opening.', image: lockImage },
   ],
-  'Smart Entry Products': [
-    { name: 'Video Doorbell', note: 'See, speak and answer from anywhere.', image: doorbellImage, tag: 'New' },
-    { name: 'Smart Doorphone', note: 'A clearer welcome at every entrance.', image: doorControllerImage },
-    { name: 'Biometric Terminal', note: 'Secure entry with fast recognition.', image: biometricImage },
-    { name: 'Turnstile Access', note: 'Organised entry for busy workplaces.', image: biometricTurnstileImage },
-    { name: 'RFID Reader', note: 'Quick, trackable access for every door.', image: rfidImage },
-    { name: 'ANPR Entry Camera', note: 'Let approved vehicles pass smoothly.', image: anprImage },
-    { name: 'Magnetic Lock', note: 'Protect doors with tested holding power.', image: lockImage },
-    { name: 'Smart Entry Hub', note: 'Control your complete entrance system.', image: smartControlImage },
+  'Access Control': [
+    { name: 'Biometric Terminal', note: 'Professional access control system.', image: biometricScanner, tag: 'Enterprise' },
+    { name: 'Turnstile Gate', note: 'Controlled entry for high-traffic areas.', image: turnstile },
+    { name: 'RFID Access System', note: 'Card-based entry management.', image: rfidReader },
+    { name: 'Smart Door Controller', note: 'Centralized door access control.', image: doorController },
+    { name: 'ANPR Entry System', note: 'Vehicle identification entry system.', image: anprCamera, tag: 'AI' },
+    { name: 'Video Doorbell', note: 'See and speak to visitors remotely.', image: doorbell },
   ],
 }
 
@@ -99,6 +97,17 @@ watch(activePickTab, () => {
   pickOffset.value = 0
 })
 
+<<<<<<< HEAD
+=======
+const quickCategories = [
+  { title: 'Indoor cameras', icon: '⌂' },
+  { title: 'Outdoor cameras', icon: '◉' },
+  { title: 'PTZ cameras', icon: '↻' },
+  { title: 'Smart entry', icon: '⇥' },
+  { title: 'Alarm systems', icon: '⚠' },
+]
+
+>>>>>>> 9f070a7 (feat: Updated hero section with video background and refreshed product images)
 const homeSceneTabs = ['Home', 'Living room', 'Kitchen', 'Home office', 'Room', 'Yard']
 const activeHomeScene = ref('Home')
 
@@ -107,7 +116,7 @@ const activeHomeScene = ref('Home')
 <template>
   <div class="overflow-x-hidden">
 
-    <HeroCardSlider @go-to-shop="emit('goToShop')" />
+    <HeroSection />
 
     <section class="family-map-section">
       <div class="family-map-shell">
@@ -128,7 +137,7 @@ const activeHomeScene = ref('Home')
         <p>Everything in one place, for all families.</p>
       </div>
       <div class="home-scene-visual">
-        <img :src="smartHomeImage" alt="The SDSSS smart home" loading="lazy" />
+        <img :src="smartHome" alt="The SDSSS smart home" loading="lazy" />
         <nav class="home-scene-tabs" aria-label="Smart home spaces">
           <button v-for="tab in homeSceneTabs" :key="tab" type="button" :class="{ active: activeHomeScene === tab }" @click="activeHomeScene = tab">{{ tab }}</button>
         </nav>
@@ -143,48 +152,50 @@ const activeHomeScene = ref('Home')
             <button v-for="tab in pickTabs" :key="tab" type="button" :class="{ active: activePickTab === tab }" @click="activePickTab = tab">{{ tab }}</button>
           </nav>
         </div>
-        <div class="top-picks-grid">
-          <article v-for="product in visibleTopPicks" :key="product.name" class="top-pick-card" @click="emit('goToShop')">
-            <span v-if="product.tag" class="top-pick-tag">{{ product.tag }}</span>
-            <div class="top-pick-image"><img :src="product.image" :alt="product.name" loading="lazy" /></div>
-            <div class="top-pick-copy"><h3>{{ product.name }}</h3><p>{{ product.note }}</p></div>
-          </article>
+
+        <div class="picks-grid">
+          <div v-for="product in visibleTopPicks" :key="product.name" class="pick-card">
+            <img :src="product.image" :alt="product.name" loading="lazy" />
+            <span v-if="product.tag" class="pick-tag">{{ product.tag }}</span>
+            <div class="pick-info">
+              <h3>{{ product.name }}</h3>
+              <p>{{ product.note }}</p>
+            </div>
+          </div>
         </div>
-        <div class="picks-bottom"><div class="picks-line"><i :style="{ width: `${((pickOffset + 4) / activePickProducts.length) * 100}%` }"></i></div><div class="picks-arrows"><button type="button" aria-label="Previous products" @click="movePicks(-1)">←</button><button type="button" aria-label="Next products" @click="movePicks(1)">→</button></div></div>
+
+        <div class="picks-controls">
+          <button type="button" @click="movePicks(-1)" aria-label="Previous products">‹</button>
+          <button type="button" @click="movePicks(1)" aria-label="Next products">›</button>
+        </div>
       </div>
     </section>
 
     <section class="action-section">
       <div class="section-shell action-shell">
         <div class="action-heading">
-          <div>
-            <p class="eyebrow">Behind every safer space</p>
-            <h2>Our products and our team in action.</h2>
-          </div>
-          <button class="action-explore" type="button" @click="emit('goToShop')">Explore everything <span>›</span></button>
+          <h2>Security solutions for every need</h2>
+          <p>From residential to commercial, we've got you covered with professional-grade equipment and expert installation.</p>
         </div>
-        <div class="action-gallery">
-          <button class="action-feature" type="button" @click="emit('goToShop')">
-            <img :src="cctvImage" alt="Security team monitoring live camera views" loading="lazy" />
-            <span class="action-shade"></span>
-            <span class="action-label"><strong>See every detail.</strong><small>Live monitoring that keeps teams one step ahead.</small><b>›</b></span>
-          </button>
-          <button class="action-media action-media-entry" type="button" @click="emit('goToShop')">
-            <img :src="doorControllerImage" alt="Team setting up a smart entry system" loading="lazy" />
-            <span class="action-media-label">Smarter entry, installed with care <b>›</b></span>
-          </button>
-          <article class="action-story">
-            <p>Our smart entry systems connect people, products and places with simple control and dependable support.</p>
-            <strong>SDSSS in action</strong>
-          </article>
-          <article class="action-story">
-            <p>From live monitoring to intelligent tracking, every product is designed to keep your most important spaces in view.</p>
-            <strong>Built around you</strong>
-          </article>
-          <button class="action-media action-media-access" type="button" @click="emit('goToShop')">
-            <img :src="biometricImage" alt="Biometric access system in use" loading="lazy" />
-            <span class="action-media-label">People-first protection <b>›</b></span>
-          </button>
+        <div class="action-grid">
+          <div class="action-card">
+            <img :src="guardService" alt="Security guard services" loading="lazy" />
+            <h3>Guard Services</h3>
+            <p>Professional security personnel for your premises</p>
+            <button type="button" @click="emit('goToShop')">Learn more →</button>
+          </div>
+          <div class="action-card">
+            <img :src="cctvPackage" alt="CCTV installation" loading="lazy" />
+            <h3>CCTV Installation</h3>
+            <p>Complete surveillance solutions with expert setup</p>
+            <button type="button" @click="emit('goToShop')">Get started →</button>
+          </div>
+          <div class="action-card">
+            <img :src="biometricScanner" alt="Access control systems" loading="lazy" />
+            <h3>Access Control</h3>
+            <p>Advanced entry management and monitoring</p>
+            <button type="button" @click="emit('goToShop')">Explore →</button>
+          </div>
         </div>
       </div>
     </section>
@@ -192,12 +203,18 @@ const activeHomeScene = ref('Home')
     <section class="scene-section">
       <div class="scene-heading">
         <div><p class="eyebrow">The SDSSS smart home</p><h2>All in one home,<br />for every family.</h2></div>
-        <p>Explore a connected way to look after the moments, people and places you care about.</p>
+        <button type="button" class="scene-explore" @click="emit('goToShop')">Explore smart home →</button>
       </div>
       <div class="scene-grid">
-        <button class="scene scene-living" type="button" @click="emit('goToShop')"><span>Living room</span><b>Explore →</b></button>
-        <button class="scene scene-entry" type="button" @click="emit('goToShop')"><span>Front door</span><b>Explore →</b></button>
-        <button class="scene scene-business" type="button" @click="emit('goToShop')"><span>Business</span><b>Explore →</b></button>
+        <button type="button" class="scene scene-living" @click="emit('goToShop')">
+          <span>Living room<b>Indoor cameras & sensors</b></span>
+        </button>
+        <button type="button" class="scene scene-entry" @click="emit('goToShop')">
+          <span>Entrance<b>Smart locks & doorbells</b></span>
+        </button>
+        <button type="button" class="scene scene-business" @click="emit('goToShop')">
+          <span>Business<b>Access control & turnstiles</b></span>
+        </button>
       </div>
     </section>
 
@@ -205,6 +222,7 @@ const activeHomeScene = ref('Home')
 </template>
 
 <style scoped>
+<<<<<<< HEAD
 .section-shell { width: min(1200px, calc(100% - 3rem)); margin: 0 auto; }
 .family-section, .picks-section, .editorial-section { background: #fff; padding: 6.5rem 0; }
 .picks-section { background: #fff; border-top: 1px solid #edf1f3; border-bottom: 1px solid #edf1f3; }
@@ -325,154 +343,84 @@ const activeHomeScene = ref('Home')
 .home-scene-tabs { position: absolute; z-index: 2; left: 50%; bottom: 1.4rem; display: flex; justify-content: center; gap: .8rem; width: min(900px, calc(100% - 2rem)); transform: translateX(-50%); }
 .home-scene-tabs button { flex: 1 1 0; min-width: 0; border: 1px solid rgba(255,255,255,.6); border-radius: 999px; padding: .75rem 1rem; color: #25323a; background: rgba(255,255,255,.48); backdrop-filter: blur(8px); cursor: pointer; font-size: .78rem; white-space: nowrap; transition: background .2s ease, transform .2s ease; }
 .home-scene-tabs button:hover, .home-scene-tabs button.active { background: rgba(255,255,255,.82); transform: translateY(-2px); }
+=======
+/* Base styles preserved from original */
+.category-strip { display: flex; gap: .75rem; justify-content: center; padding: 2.5rem 1.5rem; background: #f8f9fa; flex-wrap: wrap; }
+.category-strip button { display: flex; align-items: center; gap: .5rem; padding: .625rem 1.125rem; border: 1px solid #dee2e6; border-radius: 999px; background: white; font-size: .875rem; font-weight: 600; cursor: pointer; transition: all 180ms ease; }
+.category-strip button:hover { border-color: #1676d2; color: #1676d2; transform: translateY(-2px); }
+.category-icon { font-size: 1.125rem; }
 
-.scene-section { padding: 6.5rem 0; background: #fff; }
-.scene-heading { width: min(1200px, calc(100% - 3rem)); margin: 0 auto 2.5rem; display: flex; justify-content: space-between; gap: 2rem; align-items: end; }
-.scene-heading h2 { color: #111; font-size: clamp(2rem, 4vw, 3.5rem); line-height: 1; margin: 0; }
-.scene-heading > p { max-width: 330px; color: #666; line-height: 1.6; margin: 0; }
-.scene-grid { display: grid; grid-template-columns: 1.15fr .85fr .85fr; gap: 1rem; width: min(1200px, calc(100% - 3rem)); margin: auto; }
-.scene { min-height: 390px; display: flex; flex-direction: column; justify-content: end; align-items: flex-start; gap: .5rem; padding: 1.5rem; border: 0; color: #fff; text-align: left; background-size: cover; background-position: center; cursor: pointer; position: relative; overflow: hidden; }
-.scene::after { content: ''; position: absolute; inset: 45% 0 0; background: linear-gradient(transparent, rgba(0,0,0,.78)); }
-.scene span, .scene b { z-index: 1; }
-.scene span { font-size: 1.5rem; font-weight: 700; }
-.scene b { font-size: .8rem; }
-.scene-living { background-image: url('../assets/products/CCTV_live_view_grid_mockup_202609052309.jpeg'); }
-.scene-entry { background-image: url('../assets/products/Video_doorbell_with_camera_mockup_202609052309.jpeg'); }
-.scene-business { background-image: url('../assets/products/Biometric_turnstile_gate_installed_202609052309.jpeg'); }
-.scene:hover { filter: saturate(1.08); }
+.family-map-section { padding: 4rem 1.5rem; background: white; }
+.family-map-shell { max-width: 1280px; margin: 0 auto; }
+.family-map-shell h2 { font-size: clamp(2rem, 5vw, 3rem); font-weight: 800; text-align: center; margin-bottom: 3rem; }
+.family-map-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; }
+.family-map-card { position: relative; aspect-ratio: 4/3; border-radius: 16px; overflow: hidden; border: none; cursor: pointer; transition: transform 250ms ease; }
+.family-map-card:hover { transform: scale(1.02); }
+.family-map-card img { width: 100%; height: 100%; object-fit: cover; }
+.family-map-label { position: absolute; bottom: 1.5rem; left: 1.5rem; font-size: 1.25rem; font-weight: 700; color: white; text-shadow: 0 2px 8px rgba(0,0,0,0.5); }
+.family-map-arrow { position: absolute; top: 1rem; right: 1rem; font-size: 1.5rem; color: white; opacity: 0; transition: opacity 200ms ease; }
+.family-map-card:hover .family-map-arrow { opacity: 1; }
 
-.reference-hero {
-  min-height: min(680px, calc(100vh - 64px));
-  display: grid;
-  grid-template-columns: minmax(320px, 0.9fr) minmax(420px, 1.1fr);
-  align-items: center;
-  gap: 4rem;
-  padding: 4.5rem clamp(1.5rem, 7vw, 7rem);
-  overflow: hidden;
-  color: #fff;
-  background: #10161b;
-  position: relative;
-}
+.home-scene-section { padding: 4rem 1.5rem; background: #f8f9fa; }
+.home-scene-heading { text-align: center; margin-bottom: 2rem; }
+.home-scene-heading h2 { font-size: clamp(2rem, 5vw, 3rem); font-weight: 800; margin-bottom: .5rem; }
+.home-scene-heading p { font-size: 1.125rem; color: #6c757d; }
+.home-scene-visual { max-width: 1200px; margin: 0 auto; position: relative; }
+.home-scene-visual img { width: 100%; border-radius: 16px; }
+.home-scene-tabs { display: flex; gap: .5rem; justify-content: center; margin-top: 1.5rem; flex-wrap: wrap; }
+.home-scene-tabs button { padding: .5rem 1rem; border: 1px solid #dee2e6; border-radius: 999px; background: white; font-size: .875rem; font-weight: 600; cursor: pointer; transition: all 180ms ease; }
+.home-scene-tabs button.active { border-color: #1676d2; color: #1676d2; background: #e7f3ff; }
+>>>>>>> 9f070a7 (feat: Updated hero section with video background and refreshed product images)
 
-.reference-hero::before {
-  content: '';
-  position: absolute;
-  width: 58%;
-  height: 150%;
-  left: -15%;
-  top: -25%;
-  border-radius: 50%;
-  background: #1b2b31;
-}
+.picks-section { padding: 4rem 1.5rem; background: white; }
+.section-shell { max-width: 1280px; margin: 0 auto; }
+.picks-heading { margin-bottom: 2.5rem; }
+.picks-heading h2 { font-size: clamp(2rem, 5vw, 3rem); font-weight: 800; margin-bottom: 1.5rem; text-align: center; }
+.pick-tabs { display: flex; gap: .75rem; justify-content: center; flex-wrap: wrap; }
+.pick-tabs button { padding: .625rem 1.25rem; border: 1px solid #dee2e6; border-radius: 999px; background: white; font-size: .875rem; font-weight: 600; cursor: pointer; transition: all 180ms ease; }
+.pick-tabs button.active { border-color: #1676d2; color: #1676d2; background: #e7f3ff; }
+.picks-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.5rem; margin-bottom: 2rem; }
+.pick-card { position: relative; border-radius: 12px; overflow: hidden; background: white; box-shadow: 0 2px 8px rgba(0,0,0,0.08); transition: transform 250ms ease; }
+.pick-card:hover { transform: translateY(-4px); box-shadow: 0 8px 24px rgba(0,0,0,0.12); }
+.pick-card img { width: 100%; aspect-ratio: 4/3; object-fit: cover; }
+.pick-tag { position: absolute; top: .75rem; right: .75rem; padding: .375rem .75rem; background: #1676d2; color: white; font-size: .75rem; font-weight: 700; border-radius: 999px; }
+.pick-info { padding: 1.25rem; }
+.pick-info h3 { font-size: 1.125rem; font-weight: 700; margin-bottom: .5rem; }
+.pick-info p { font-size: .875rem; color: #6c757d; }
+.picks-controls { display: flex; gap: 1rem; justify-content: center; }
+.picks-controls button { width: 3rem; height: 3rem; border: 1px solid #dee2e6; border-radius: 50%; background: white; font-size: 1.5rem; cursor: pointer; transition: all 180ms ease; }
+.picks-controls button:hover { border-color: #1676d2; color: #1676d2; }
 
-.hero-copy,
-.hero-visual {
-  position: relative;
-  z-index: 1;
-}
+.action-section { padding: 4rem 1.5rem; background: #f8f9fa; }
+.action-heading { text-align: center; margin-bottom: 3rem; }
+.action-heading h2 { font-size: clamp(2rem, 5vw, 3rem); font-weight: 800; margin-bottom: 1rem; }
+.action-heading p { font-size: 1.125rem; color: #6c757d; max-width: 600px; margin: 0 auto; }
+.action-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; }
+.action-card { background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.08); transition: transform 250ms ease; }
+.action-card:hover { transform: translateY(-4px); }
+.action-card img { width: 100%; aspect-ratio: 16/9; object-fit: cover; }
+.action-card h3 { font-size: 1.5rem; font-weight: 700; margin: 1.5rem 1.5rem 1rem; }
+.action-card p { font-size: 1rem; color: #6c757d; margin: 0 1.5rem 1.5rem; }
+.action-card button { margin: 0 1.5rem 1.5rem; padding: .75rem 1.5rem; border: none; background: #1676d2; color: white; border-radius: 8px; font-weight: 600; cursor: pointer; transition: background 180ms ease; }
+.action-card button:hover { background: #0d5ea8; }
 
-.hero-copy {
-  max-width: 520px;
-}
-
-.hero-kicker {
-  color: #d7b15b;
-  font-size: 0.72rem;
-  font-weight: 800;
-  letter-spacing: 0.18em;
-  margin: 0 0 1.4rem;
-}
-
-.hero-copy h1 {
-  color: #fff;
-  font-size: clamp(2.8rem, 5vw, 5.4rem);
-  line-height: 0.98;
-  margin: 0;
-  max-width: 650px;
-}
-
-.hero-description {
-  color: #d0d8da;
-  font-size: 1.05rem;
-  line-height: 1.7;
-  max-width: 430px;
-  margin: 1.7rem 0 2rem;
-}
-
-.hero-cta {
-  display: inline-flex;
-  align-items: center;
-  gap: 1.25rem;
-  border: 0;
-  border-radius: 999px;
-  padding: 0.85rem 1.25rem 0.85rem 1.5rem;
-  color: #172025;
-  background: #d7b15b;
-  font-weight: 800;
-  cursor: pointer;
-  transition: transform 180ms ease, background 180ms ease;
-}
-
-.hero-cta span {
-  font-size: 1.25rem;
-  line-height: 1;
-}
-
-.hero-cta:hover {
-  background: #f0cf7b;
-  transform: translateY(-2px);
-}
-
-.hero-visual {
-  min-height: 390px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.hero-image-frame {
-  width: min(100%, 680px);
-  aspect-ratio: 1.25;
-  overflow: hidden;
-  border-radius: 2rem 2rem 2rem 9rem;
-  box-shadow: 1.5rem 1.5rem 0 rgba(215, 177, 91, 0.16);
-  transform: rotate(2deg);
-}
-
-.hero-image-frame img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.hero-badge {
-  position: absolute;
-  right: 1rem;
-  bottom: 0.5rem;
-  display: flex;
-  align-items: center;
-  gap: 0.7rem;
-  padding: 0.8rem 1rem;
-  color: #172025;
-  background: #fff;
-  border-radius: 0.75rem;
-  box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.2);
-}
-
-.hero-badge strong {
-  color: #b18429;
-  font-size: 1.4rem;
-}
-
-.hero-badge span {
-  font-size: 0.7rem;
-  line-height: 1.25;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-}
+.scene-section { padding: 4rem 1.5rem; background: white; }
+.scene-heading { display: flex; justify-content: space-between; align-items: center; max-width: 1280px; margin: 0 auto 3rem; flex-wrap: wrap; gap: 2rem; }
+.eyebrow { font-size: .875rem; color: #1676d2; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; margin-bottom: .5rem; }
+.scene-heading h2 { font-size: clamp(2rem, 5vw, 3rem); font-weight: 800; }
+.scene-explore { padding: .875rem 1.75rem; border: 1px solid #1676d2; background: white; color: #1676d2; border-radius: 999px; font-weight: 700; cursor: pointer; transition: all 180ms ease; }
+.scene-explore:hover { background: #1676d2; color: white; }
+.scene-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.5rem; max-width: 1280px; margin: 0 auto; }
+.scene { position: relative; aspect-ratio: 16/9; border-radius: 16px; overflow: hidden; border: none; cursor: pointer; background-size: cover; background-position: center; transition: transform 250ms ease; }
+.scene:hover { transform: scale(1.02); }
+.scene span { position: absolute; bottom: 2rem; left: 2rem; color: white; text-align: left; font-size: 1.5rem; font-weight: 700; text-shadow: 0 2px 8px rgba(0,0,0,0.5); }
+.scene b { display: block; font-size: .875rem; font-weight: 400; margin-top: .5rem; opacity: 0.9; }
+.scene-living { background-image: url('../assets/products/ChatGPT Image Sep 20, 2026, 02_58_15 AM.png'); }
+.scene-entry { background-image: url('../assets/products/61XkDOqfaOL.jpg'); }
+.scene-business { background-image: url('../assets/products/ChatGPT Image Sep 20, 2026, 03_21_04 AM.png'); }
 
 @media (max-width: 768px) {
+<<<<<<< HEAD
   .section-shell { width: min(100% - 2.2rem, 600px); }
   .family-section, .picks-section, .editorial-section { padding: 4.5rem 0; }
   .section-heading-row { align-items: start; flex-direction: column; gap: 1.25rem; }
@@ -576,5 +524,9 @@ const activeHomeScene = ref('Home')
     font-size: 1.4rem;
     padding: 0 15px;
   }
+=======
+  .scene-heading { flex-direction: column; align-items: flex-start; }
+  .family-map-grid, .picks-grid, .action-grid, .scene-grid { grid-template-columns: 1fr; }
+>>>>>>> 9f070a7 (feat: Updated hero section with video background and refreshed product images)
 }
 </style>

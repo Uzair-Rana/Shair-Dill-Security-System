@@ -1,18 +1,18 @@
 <script setup lang="ts">
 import ProductCard from './ProductCard.vue'
 
-import anprCameraImg from '../assets/products/ANPR_camera_mounted_on_arm_202609052309.jpeg'
-import biometricTurnstileImg from '../assets/products/Biometric_turnstile_gate_installed_202609052309.jpeg'
-import alarmSirenImg from '../assets/products/Alarm_strobe_and_siren_combo_202609052309.jpeg'
-import motionSensorImg from '../assets/products/Motion_sensor_product_photo_202609052309.jpeg'
-import ptzCameraImg from '../assets/products/PTZ_speed_dome_camera_recording_202609052309.jpeg'
-import rfidReaderImg from '../assets/products/RFID_card_reader_panel_mounted_202609052309.jpeg'
-import doorControllerImg from '../assets/products/Smart_Touchscreen_Door_Controller_202609052309.jpeg'
-import videDoorbellImg from '../assets/products/Video_doorbell_with_camera_mockup_202609052309.jpeg'
-import doorLockImg from '../assets/products/Magnetic_door_lock_access_system_202609052309.jpeg'
-import beamDetectorImg from '../assets/products/Wireless_security_beam_detector_…_202609052309.jpeg'
-import turretCameraImg from '../assets/products/Turret_camera_macro_studio_photo…_202609052309.jpeg'
-import underVehicleImg from '../assets/products/Under-vehicle_inspection_camera_…_202609052309.jpeg'
+import anprCameraImg from '../assets/products/images (10).jpg'
+import biometricTurnstileImg from '../assets/products/ChatGPT Image Sep 20, 2026, 03_21_04 AM.png'
+import alarmSirenImg from '../assets/products/BOS-NBE-3703-AL.webp'
+import motionSensorImg from '../assets/products/images (17).jpg'
+import ptzCameraImg from '../assets/products/hikvision-ds-2de4225iw-de.jpg'
+import rfidReaderImg from '../assets/products/images (19).jpg'
+import doorControllerImg from '../assets/products/ChatGPT Image Sep 20, 2026, 03_08_46 AM.png'
+import videDoorbellImg from '../assets/products/61XkDOqfaOL.jpg'
+import doorLockImg from '../assets/products/images (15).jpg'
+import beamDetectorImg from '../assets/products/images (18).jpg'
+import turretCameraImg from '../assets/products/DS-2CE16D0T-EXIPF-3.6mm-price-in-pakistan-hikvisionstore.pk_.png'
+import underVehicleImg from '../assets/products/images (14).jpg'
 
 interface Product {
   id: number

@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import biometricImg from '../assets/products/Biometric_turnstile_gate_installed_202609052309.jpeg'
-import cameraImg from '../assets/products/PTZ_speed_dome_camera_recording_202609052309.jpeg'
-import doorImg from '../assets/products/Smart_Touchscreen_Door_Controller_202609052309.jpeg'
-import videoDoorImg from '../assets/products/Video_doorbell_with_camera_mockup_202609052309.jpeg'
-import anprImg from '../assets/products/ANPR_camera_mounted_on_arm_202609052309.jpeg'
-import rfidImg from '../assets/products/RFID_card_reader_panel_mounted_202609052309.jpeg'
+import biometricImg from '../assets/products/ChatGPT Image Sep 20, 2026, 02_36_23 AM.png'
+import cameraImg from '../assets/products/hikvision-ds-2de4225iw-de.jpg'
+import doorImg from '../assets/products/ChatGPT Image Sep 20, 2026, 03_08_46 AM.png'
+import videoDoorImg from '../assets/products/61XkDOqfaOL.jpg'
+import anprImg from '../assets/products/images (10).jpg'
+import rfidImg from '../assets/products/images (19).jpg'
 
 interface Product {
   id: number

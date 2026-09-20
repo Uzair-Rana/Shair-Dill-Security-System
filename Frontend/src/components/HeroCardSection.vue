@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import cctvCameraImg from '../assets/products/CCTV_live_view_grid_mockup_202609052309.jpeg'
+import cctvCameraImg from '../assets/products/CCTV-camera-price-in-lahore-4-FHD-CCTV-Cameras-Package-hikvisionstore.pk_-1200x1108.jpg'
 </script>
 
 <template>

@@ -1,5 +1,6 @@
 import mongoose from 'mongoose'
 import dotenv from 'dotenv'
+import { MongoMemoryServer } from 'mongodb-memory-server'
 import HeroSlide from '../models/HeroSlide.js'
 import Product from '../models/Product.js'
 import Feature from '../models/Feature.js'
@@ -9,6 +10,20 @@ import Testimonial from '../models/Testimonial.js'
 dotenv.config()
 
 const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/sdsss'
+
+async function getMongoUri() {
+  if (process.env.MONGODB_URI) {
+    return process.env.MONGODB_URI
+  }
+
+  try {
+    const memoryMongo = await MongoMemoryServer.create()
+    return memoryMongo.getUri()
+  } catch (error) {
+    console.warn('MongoMemoryServer unavailable, falling back to localhost MongoDB:', error.message)
+    return MONGODB_URI
+  }
+}
 
 const heroSlides = [
   {
@@ -297,7 +312,8 @@ const testimonials = [
 
 async function seedDatabase() {
   try {
-    await mongoose.connect(MONGODB_URI, {
+    const mongoUri = await getMongoUri()
+    await mongoose.connect(mongoUri, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     })
