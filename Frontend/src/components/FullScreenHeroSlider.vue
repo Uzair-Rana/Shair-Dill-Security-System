@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import { ref, onMounted, computed } from 'vue'
+import { ref, onMounted, computed, watch, nextTick } from 'vue'
 
 interface Slide {
   id: number
-  image: string
+  image?: string
+  video?: string
   heading: string
   description: string
   ctaText: string
@@ -12,25 +13,24 @@ interface Slide {
 
 interface Props {
   slides: Slide[]
-  duration?: number // seconds between auto-swaps (default 4500ms)
+  duration?: number // seconds between auto-swaps (default 6000ms)
   transitionDuration?: number // fade transition duration in ms (default 800ms)
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  duration: 4500,
+  duration: 6000,
   transitionDuration: 800,
 })
 
 const currentSlide = ref(0)
 const autoSwapTimer = ref<ReturnType<typeof setInterval> | null>(null)
-const isAutoLooping = ref(true)
 const pauseResumeTimer = ref<ReturnType<typeof setTimeout> | null>(null)
-const timeRemaining = ref(props.duration)
-const progressInterval = ref<ReturnType<typeof setInterval> | null>(null)
+const slideContainerRef = ref<HTMLElement | null>(null)
 
 const activeSlide = computed<Slide>(() => props.slides[currentSlide.value] ?? {
   id: 0,
   image: '',
+  video: undefined,
   heading: '',
   description: '',
   ctaText: '',
@@ -42,39 +42,17 @@ const prefersReducedMotion = computed(() => {
   return window.matchMedia('(prefers-reduced-motion: reduce)').matches
 })
 
-const progressPercent = computed(() => {
-  return (timeRemaining.value / props.duration) * 100
-})
-
 const startAutoSwap = () => {
   if (autoSwapTimer.value) clearInterval(autoSwapTimer.value)
-  if (progressInterval.value) clearInterval(progressInterval.value)
-
-  isAutoLooping.value = true
-  timeRemaining.value = props.duration
-
-  // Progress bar animation
-  progressInterval.value = setInterval(() => {
-    timeRemaining.value = Math.max(0, timeRemaining.value - 50)
-  }, 50)
-
-  // Auto-swap animation
   autoSwapTimer.value = setInterval(() => {
     currentSlide.value = (currentSlide.value + 1) % props.slides.length
-    timeRemaining.value = props.duration
   }, props.duration)
 }
 
 const pauseAutoSwap = () => {
   if (autoSwapTimer.value) clearInterval(autoSwapTimer.value)
-  if (progressInterval.value) clearInterval(progressInterval.value)
-  isAutoLooping.value = false
-
-  // Resume after 3 seconds of no hover
   if (pauseResumeTimer.value) clearTimeout(pauseResumeTimer.value)
-  pauseResumeTimer.value = setTimeout(() => {
-    startAutoSwap()
-  }, 3000)
+  pauseResumeTimer.value = setTimeout(startAutoSwap, 4000)
 }
 
 const goToSlide = (index: number) => {
@@ -82,70 +60,74 @@ const goToSlide = (index: number) => {
   pauseAutoSwap()
 }
 
+const prevSlide = () => {
+  currentSlide.value = (currentSlide.value - 1 + props.slides.length) % props.slides.length
+  pauseAutoSwap()
+}
+
+const nextSlide = () => {
+  currentSlide.value = (currentSlide.value + 1) % props.slides.length
+  pauseAutoSwap()
+}
+
+const playActiveVideo = async () => {
+  await nextTick()
+  const video = slideContainerRef.value?.querySelector('video')
+  if (video) {
+    video.muted = true
+    video.play().catch(() => {})
+  }
+}
+
+watch(currentSlide, playActiveVideo)
+
 onMounted(() => {
   startAutoSwap()
+  playActiveVideo()
 })
 </script>
 
 <template>
   <section class="full-screen-slider">
     <!-- Slides Container -->
-    <Transition
-      name="fade"
-      mode="out-in"
-      :duration="prefersReducedMotion ? 0 : transitionDuration"
-    >
-      <div :key="currentSlide" class="slide">
-        <!-- Background Image with Overlay -->
-        <div class="slide-background">
-          <img
-            :src="activeSlide.image"
-            :alt="activeSlide.heading"
-            class="slide-image"
-          />
-          <div class="slide-overlay"></div>
-        </div>
-
-        <!-- Slide Content -->
-        <div class="slide-content">
-          <div class="content-inner">
-            <h1 class="slide-heading">{{ activeSlide.heading }}</h1>
-            <p class="slide-description">{{ activeSlide.description }}</p>
-            <a :href="activeSlide.ctaLink" class="cta-button">
-              {{ activeSlide.ctaText }}
-              <span class="arrow">→</span>
-            </a>
+    <div ref="slideContainerRef" class="slide-container">
+      <Transition
+        name="fade"
+        mode="out-in"
+        :duration="prefersReducedMotion ? 0 : transitionDuration"
+      >
+        <div :key="currentSlide" class="slide">
+          <!-- Background Media with Overlay -->
+          <div class="slide-background">
+            <video
+              v-if="activeSlide.video"
+              :src="activeSlide.video"
+              class="slide-media"
+              autoplay
+              muted
+              loop
+              playsinline
+            ></video>
+            <img v-else :src="activeSlide.image" :alt="activeSlide.heading" class="slide-media slide-media--image" />
           </div>
         </div>
-      </div>
-    </Transition>
+      </Transition>
+    </div>
 
-    <!-- Navigation Controls -->
-    <div class="nav-controls">
-      <!-- Auto-Loop Indicator -->
-      <div class="loop-indicator">
-        <div class="indicator-dot" :class="{ active: isAutoLooping }"></div>
-        <span class="indicator-text">{{ isAutoLooping ? 'Auto Loop' : 'Paused' }}</span>
-      </div>
+    <!-- Prev/Next Arrows -->
+    <button type="button" class="nav-arrow nav-arrow-left" @click="prevSlide" aria-label="Previous slide">‹</button>
+    <button type="button" class="nav-arrow nav-arrow-right" @click="nextSlide" aria-label="Next slide">›</button>
 
-      <!-- Progress Bar -->
-      <div class="progress-bar">
-        <div class="progress-fill" :style="{ width: progressPercent + '%' }"></div>
-      </div>
-
-      <!-- Slide Dots -->
-      <div class="slide-dots">
-        <button
-          v-for="(_, index) in slides"
-          :key="index"
-          class="dot"
-          :class="{ active: index === currentSlide }"
-          @click="goToSlide(index)"
-          @mouseenter="pauseAutoSwap"
-          @mouseleave="startAutoSwap"
-          :aria-label="`Go to slide ${index + 1}`"
-        />
-      </div>
+    <!-- Slide Dots -->
+    <div class="slide-dots">
+      <button
+        v-for="(_, index) in slides"
+        :key="index"
+        class="dot"
+        :class="{ active: index === currentSlide }"
+        @click="goToSlide(index)"
+        :aria-label="`Go to slide ${index + 1}`"
+      />
     </div>
   </section>
 </template>
@@ -158,7 +140,11 @@ onMounted(() => {
   height: 100vh;
   overflow: hidden;
   background: #000;
-  margin-top: 44px;
+}
+
+.slide-container {
+  position: absolute;
+  inset: 0;
 }
 
 /* Slide */
@@ -167,7 +153,6 @@ onMounted(() => {
   inset: 0;
   display: flex;
   align-items: center;
-  justify-content: center;
 }
 
 /* Slide Background */
@@ -177,18 +162,27 @@ onMounted(() => {
   overflow: hidden;
 }
 
-.slide-image {
+.slide-media {
   width: 100%;
   height: 100%;
   object-fit: cover;
   object-position: center;
 }
 
+/* Product/brand collage slides are full infographics (logo + arranged
+   products) — cropping them with object-fit:cover cuts off text and
+   product edges, so show the whole image instead, letterboxed on the
+   image's own white background rather than a jarring bar. */
+.slide-media--image {
+  object-fit: contain;
+  background: #fff;
+}
+
 /* Dark gradient overlay for text readability */
 .slide-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(135deg, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0.3) 50%, rgba(0, 0, 0, 0.5) 100%);
+  background: linear-gradient(90deg, rgba(0, 0, 0, 0.65) 0%, rgba(0, 0, 0, 0.35) 45%, rgba(0, 0, 0, 0.15) 100%);
 }
 
 /* Slide Content */
@@ -199,37 +193,43 @@ onMounted(() => {
   height: 100%;
   display: flex;
   align-items: center;
-  justify-content: center;
-  padding: 40px;
+  padding: 0 clamp(1.5rem, 8vw, 7rem);
 }
 
 .content-inner {
-  max-width: 700px;
-  text-align: center;
+  max-width: 620px;
+  text-align: left;
   color: white;
 }
 
 /* Slide Heading */
 .slide-heading {
-  font-size: clamp(2.5rem, 8vw, 4.5rem);
+  font-size: clamp(2.5rem, 6.5vw, 4.25rem);
   font-weight: 900;
   line-height: 1.1;
   margin-bottom: 20px;
   font-family: var(--font-heading);
   letter-spacing: -1px;
-  text-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  /* Override the global shimmer-gradient heading effect (main.css) which
+     renders illegible dark text on photo backgrounds — hero text needs a
+     solid, high-contrast color instead. */
+  color: #E9C874;
+  background: none;
+  background-clip: unset;
+  -webkit-background-clip: unset;
+  -webkit-text-fill-color: currentColor;
+  animation: none;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.55), 0 8px 24px rgba(0, 0, 0, 0.45);
 }
 
 /* Slide Description */
 .slide-description {
-  font-size: clamp(1rem, 2.5vw, 1.375rem);
+  font-size: clamp(1rem, 2vw, 1.25rem);
   line-height: 1.6;
-  margin-bottom: 40px;
+  margin-bottom: 32px;
   color: rgba(255, 255, 255, 0.95);
   text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-  max-width: 600px;
-  margin-left: auto;
-  margin-right: auto;
+  max-width: 520px;
 }
 
 /* CTA Button */
@@ -237,23 +237,23 @@ onMounted(() => {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
-  color: white;
-  padding: 16px 40px;
-  border-radius: 8px;
-  font-size: 1.0625rem;
+  background: #D4AF37;
+  color: #000;
+  padding: 14px 32px;
+  border-radius: 10px;
+  font-size: 0.9375rem;
   font-weight: 700;
   text-decoration: none;
   transition: all 0.3s ease;
-  box-shadow: 0 8px 24px rgba(59, 130, 246, 0.3);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
   border: none;
   cursor: pointer;
 }
 
 .cta-button:hover {
   transform: translateY(-2px);
-  box-shadow: 0 12px 32px rgba(59, 130, 246, 0.4);
-  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.3);
+  background: #C5A059;
 }
 
 .cta-button:active {
@@ -269,85 +269,51 @@ onMounted(() => {
   transform: translateX(4px);
 }
 
-/* Navigation Controls */
-.nav-controls {
+/* Prev/Next Arrows */
+.nav-arrow {
   position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
+  top: 50%;
   z-index: 20;
+  width: 44px;
+  height: 44px;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 16px;
-  padding: 24px;
-  background: linear-gradient(to top, rgba(0, 0, 0, 0.4), transparent);
-}
-
-/* Loop Indicator */
-.loop-indicator {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 0.875rem;
-  font-weight: 600;
-  color: rgba(255, 255, 255, 0.7);
-}
-
-.indicator-dot {
-  width: 6px;
-  height: 6px;
+  border: none;
   border-radius: 50%;
-  background-color: rgba(255, 255, 255, 0.5);
-  transition: all 0.3s ease;
+  background: #D4AF37;
+  color: #000;
+  font-size: 1.5rem;
+  line-height: 1;
+  cursor: pointer;
+  transform: translateY(-50%);
+  transition: background 0.2s ease, transform 0.2s ease;
 }
 
-.indicator-dot.active {
-  background-color: #3b82f6;
-  box-shadow: 0 0 8px #3b82f6;
-  animation: pulse-dot 1.5s ease-in-out infinite;
+.nav-arrow:hover {
+  background: #C5A059;
+  transform: translateY(-50%) scale(1.08);
 }
 
-@keyframes pulse-dot {
-  0%, 100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.6;
-  }
-}
-
-/* Progress Bar */
-.progress-bar {
-  width: 60px;
-  height: 3px;
-  background-color: rgba(255, 255, 255, 0.2);
-  border-radius: 2px;
-  overflow: hidden;
-  backdrop-filter: blur(4px);
-}
-
-.progress-fill {
-  height: 100%;
-  background: linear-gradient(90deg, #3b82f6, #60a5fa);
-  border-radius: 2px;
-  transition: width 0.05s linear;
-  box-shadow: 0 0 8px rgba(59, 130, 246, 0.5);
-}
+.nav-arrow-left { left: 24px; }
+.nav-arrow-right { right: 24px; }
 
 /* Slide Dots */
 .slide-dots {
+  position: absolute;
+  bottom: 28px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 20;
   display: flex;
-  gap: 12px;
-  justify-content: center;
+  gap: 10px;
 }
 
 .dot {
-  width: 12px;
-  height: 12px;
+  width: 10px;
+  height: 10px;
   border-radius: 50%;
-  border: 2px solid rgba(255, 255, 255, 0.5);
+  border: 2px solid rgba(255, 255, 255, 0.6);
   background-color: transparent;
   cursor: pointer;
   transition: all 0.3s ease;
@@ -355,14 +321,13 @@ onMounted(() => {
 }
 
 .dot:hover {
-  border-color: rgba(255, 255, 255, 0.8);
+  border-color: rgba(255, 255, 255, 0.9);
   transform: scale(1.2);
 }
 
 .dot.active {
-  background-color: #3b82f6;
-  border-color: #3b82f6;
-  box-shadow: 0 0 12px rgba(59, 130, 246, 0.6);
+  background-color: #fff;
+  border-color: #fff;
 }
 
 /* Fade Transition */
@@ -396,14 +361,14 @@ onMounted(() => {
     font-size: 0.9375rem;
   }
 
-  .nav-controls {
-    gap: 12px;
-    padding: 16px;
+  .nav-arrow {
+    width: 36px;
+    height: 36px;
+    font-size: 1.25rem;
   }
 
-  .progress-bar {
-    width: 50px;
-  }
+  .nav-arrow-left { left: 10px; }
+  .nav-arrow-right { right: 10px; }
 }
 
 /* Respect prefers-reduced-motion */

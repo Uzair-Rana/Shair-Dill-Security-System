@@ -2,7 +2,7 @@
 import { computed, onMounted, onUnmounted, ref, watch } from 'vue'
 import ptz from '../assets/products/hikvision-ds-2de4225iw-de.jpg'
 import biometric from '../assets/products/ChatGPT Image Sep 20, 2026, 02_36_23 AM.png'
-import doorController from '../assets/products/ChatGPT Image Sep 20, 2026, 03_08_46 AM.png'
+import doorController from '../assets/products/ChatGPT Image Sep 20, 2026, 03_11_33 AM.png'
 
 interface Slide {
   id: number

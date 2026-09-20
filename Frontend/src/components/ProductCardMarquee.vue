@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import biometricImg from '../assets/products/ChatGPT Image Sep 20, 2026, 02_36_23 AM.png'
 import cameraImg from '../assets/products/hikvision-ds-2de4225iw-de.jpg'
-import doorImg from '../assets/products/ChatGPT Image Sep 20, 2026, 03_08_46 AM.png'
+import doorImg from '../assets/products/ChatGPT Image Sep 20, 2026, 03_11_33 AM.png'
 import videoDoorImg from '../assets/products/61XkDOqfaOL.jpg'
 import anprImg from '../assets/products/images (10).jpg'
 import rfidImg from '../assets/products/images (19).jpg'

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import smartHomeImage from '../assets/products/ChatGPT Image Sep 20, 2026, 02_58_15 AM.png'
 import cameraImage from '../assets/products/sony-snc-ch160-ip-camera.jpg'
-import entryImage from '../assets/products/ChatGPT Image Sep 20, 2026, 03_08_46 AM.png'
+import entryImage from '../assets/products/ChatGPT Image Sep 20, 2026, 03_11_33 AM.png'
 import sensorImage from '../assets/products/images (17).jpg'
 import { ref } from 'vue'
 

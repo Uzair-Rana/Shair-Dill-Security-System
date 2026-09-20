@@ -32,7 +32,7 @@ watch(currentPage, async () => {
     <HeaderNav :current-page="currentPage" @navigate="navigate" />
 
     <main class="flex-1">
-      <HomePage    v-if="currentPage === 'home'"    @go-to-shop="navigate('shop')" />
+      <HomePage    v-if="currentPage === 'home'"    @go-to-shop="navigate('shop')" @go-to-about="navigate('about')" />
       <div         v-else-if="currentPage === 'shop'"    class="pt-[54px]"><ShopPage /></div>
       <ServicesPage v-else-if="currentPage === 'services'" />
       <CareersPage v-else-if="currentPage === 'careers'" />
