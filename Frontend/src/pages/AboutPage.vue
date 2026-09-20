@@ -122,6 +122,7 @@ const team = [
       <div class="absolute top-0 right-0 w-[500px] h-[500px] rounded-full bg-[#5FA8E0]/10 blur-3xl -translate-y-1/2 translate-x-1/3 pointer-events-none" />
       <div class="relative max-w-[1200px] mx-auto px-5 sm:px-8">
         <div ref="headerRef" class="reveal-up max-w-2xl">
+          <img :src="logoImg" alt="SDSSS" class="h-16 w-auto object-contain mb-5" />
           <p class="text-[11px] font-semibold uppercase tracking-[0.22em] text-[#5FA8E0] mb-4">About SDSSS</p>
           <h1 class="text-[clamp(2.5rem,6vw,4rem)] font-black leading-[1.04] tracking-[-0.02em] text-[#1D1D1F] mb-5">
             Pakistan's trusted<br /><span class="text-[#5FA8E0]">security partner.</span>

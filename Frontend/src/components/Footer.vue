@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import logoImg from '../assets/logo of SDSSS.png'
+
 const quickLinks = [
   { label: 'Home', href: '#' },
   { label: 'Security Cameras', href: '#' },
@@ -19,7 +21,10 @@ const legalLinks = [
     <div class="max-w-[1400px] mx-auto px-5 sm:px-8 py-10 md:py-12">
       <div class="footer-subscribe flex flex-col md:flex-row md:items-center md:justify-between gap-5 mb-10 pb-8 border-b border-[#dfe7ea]">
         <div>
-          <h3 class="text-xl font-bold text-[#10242d] mb-1">Stay connected with SDSSS</h3>
+          <h3 class="text-xl font-bold text-[#10242d] mb-1 flex items-center gap-2 flex-wrap">
+            <span>Stay connected with</span>
+            <img :src="logoImg" alt="SDSSS" class="h-7 w-auto object-contain" />
+          </h3>
           <p class="text-[#60727a] text-sm">Get product updates, smart security tips and new offers.</p>
         </div>
         <form class="flex w-full md:w-auto" @submit.prevent>
@@ -32,6 +37,7 @@ const legalLinks = [
 
         <!-- Company Info -->
         <div class="md:col-span-2">
+          <img :src="logoImg" alt="SDSSS" class="h-12 w-auto object-contain mb-3" />
           <h3 class="text-base font-bold text-[#0f172a] mb-2" style="font-family: var(--font-heading);">
             <span class="text-[#111111]">SDSSS</span> Ltd.
           </h3>
@@ -89,8 +95,9 @@ const legalLinks = [
       <div class="border-t border-[#e2e8f0] pt-6">
         <!-- Bottom Info -->
         <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p class="text-xs text-[#64748b]">
-            © {{ new Date().getFullYear() }} SDSSS (Pvt) Ltd. All rights reserved.
+          <p class="text-xs text-[#64748b] flex items-center gap-2">
+            <img :src="logoImg" alt="" aria-hidden="true" class="h-5 w-auto object-contain" />
+            <span>© {{ new Date().getFullYear() }} SDSSS (Pvt) Ltd. All rights reserved.</span>
           </p>
           <div class="text-xs text-[#111111] font-semibold">
             Shair Dill Security System Services

@@ -48,8 +48,8 @@ const handleNav = (page: 'home' | 'shop' | 'services' | 'careers' | 'about' | 'c
 
           <!-- Logo -->
           <button @click="handleNav('home')" class="flex items-center gap-3 flex-shrink-0" aria-label="Go to homepage">
-            <div class="w-10 h-10 overflow-hidden flex-shrink-0 p-1">
-              <img :src="logoImg" alt="SDSSS Logo" class="w-full h-full object-contain" />
+            <div class="h-11 w-auto overflow-hidden flex-shrink-0 py-0.5">
+              <img :src="logoImg" alt="SDSSS Logo" class="h-full w-auto object-contain" />
             </div>
             <span class="hidden sm:block text-[15px] font-medium tracking-tight">
               <span class="text-[#E9C874]">SDSSS</span>
