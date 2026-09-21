@@ -64,6 +64,13 @@ import hikvisionAccessTerminals from '../assets/products/ChatGPT Image Sep 20, 2
 import samsungDomeCamera from '../assets/products/remote-control-2mp-samsung-cctv-camera-for-household-surveillance-269.jpg'
 import ezvizWallMountCamera from '../assets/products/images (17).jpg'
 
+// ── Full brand line-up sheets ─────────────────────────────────
+import sonyRangeSheet from '../assets/products/ChatGPT Image Sep 20, 2026, 07_33_16 AM.png'
+import samsungRangeSheet from '../assets/products/ChatGPT Image Sep 20, 2026, 07_23_45 AM.png'
+import boschRangeSheet from '../assets/products/ChatGPT Image Sep 20, 2026, 07_12_48 AM.png'
+import hikvisionRangeSheet from '../assets/products/ChatGPT Image Sep 20, 2026, 07_26_26 AM.png'
+import ezvizRangeSheet from '../assets/products/ChatGPT Image Sep 20, 2026, 07_15_57 AM.png'
+
 // ── Integrated solutions ──────────────────────────────────────
 import solNvrRecorder from '../assets/products/sol-nvr-recorder.jpg'
 import solCmsMonitor from '../assets/products/sol-cms-monitor.jpg'
@@ -437,6 +444,15 @@ const build = (brand: string, seeds: Seed[]): Product[] =>
   })
 
 export const brandOrder = ['Sony', 'Samsung', 'BOSCH', 'Hikvision', 'EZVIZ'] as const
+
+/** The one-image overview of everything a brand makes. */
+export const brandRangeSheets: Record<string, string> = {
+  Sony: sonyRangeSheet,
+  Samsung: samsungRangeSheet,
+  BOSCH: boschRangeSheet,
+  Hikvision: hikvisionRangeSheet,
+  EZVIZ: ezvizRangeSheet,
+}
 
 export const productsByBrand: Record<string, Product[]> = {
   Sony: build('Sony', [

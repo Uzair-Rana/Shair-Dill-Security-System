@@ -147,7 +147,7 @@ onMounted(() => {
   padding: 40px;
   border-radius: 16px;
   background: white;
-  border: 2px solid #e2e8f0;
+  border: 2px solid #C5A059;
   box-shadow:
     0 50px 100px rgba(0, 0, 0, 8%),
     0 0 40px rgba(59, 130, 246, 0.15);
@@ -160,7 +160,7 @@ onMounted(() => {
 }
 
 .stat-card:hover {
-  border-color: #3b82f6;
+  border-color: #D4AF37;
   box-shadow:
     0 60px 120px rgba(59, 130, 246, 0.15),
     0 0 50px rgba(59, 130, 246, 0.2);

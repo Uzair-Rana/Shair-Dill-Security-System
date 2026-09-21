@@ -13,8 +13,12 @@ const FLASH_MS = 820
 const BLOOM_OPACITY = 0.58
 const ZOOM_PUNCH = 1.035
 
-// Where the loop boundary falls on the animation timeline (0..1).
-const peak = (LEAD_SECONDS * 1000) / FLASH_MS
+// Slowed-down playback so the footage reads as ambient rather than frantic.
+const PLAYBACK_RATE = 0.5
+
+// Where the loop boundary falls on the animation timeline (0..1). LEAD_SECONDS
+// is media time, so divide by the rate to get the wall-clock lead the flash runs on.
+const peak = ((LEAD_SECONDS / PLAYBACK_RATE) * 1000) / FLASH_MS
 
 let rafId = 0
 let armed = true
@@ -47,6 +51,12 @@ const fireFlash = () => {
   )
 }
 
+// Some browsers reset the rate when the source (re)loads, so re-assert it.
+const applyRate = () => {
+  const video = videoRef.value
+  if (video) video.playbackRate = PLAYBACK_RATE
+}
+
 const tick = () => {
   const video = videoRef.value
   if (video && Number.isFinite(video.duration) && video.duration > 0) {
@@ -63,6 +73,7 @@ const tick = () => {
 }
 
 onMounted(() => {
+  applyRate()
   rafId = requestAnimationFrame(tick)
 })
 
@@ -78,7 +89,7 @@ const togglePlayback = () => {
   if (!video) return
 
   if (video.paused) {
-    video.play().then(() => { isPaused.value = false }).catch(() => {})
+    video.play().then(() => { isPaused.value = false; applyRate() }).catch(() => {})
   } else {
     video.pause()
     isPaused.value = true
@@ -104,6 +115,7 @@ const togglePlayback = () => {
       muted
       loop
       playsinline
+      @loadedmetadata="applyRate"
     ></video>
     <div ref="flashRef" class="hero-flash" aria-hidden="true"></div>
     <div class="hero-sweep-clip" aria-hidden="true">

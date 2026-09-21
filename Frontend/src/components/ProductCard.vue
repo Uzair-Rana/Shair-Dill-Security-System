@@ -86,36 +86,46 @@ const isShopProduct = computed(() => !!props.price)
 .product-card {
   display: flex;
   flex-direction: column;
-  background: white;
-  border-radius: 12px;
+  background: #fff;
+  border: 1px solid #C5A059;
+  border-radius: 16px;
   overflow: hidden;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
-  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  box-shadow: none;
+  transition: transform 320ms cubic-bezier(.22, 1, .36, 1), box-shadow 320ms ease, border-color 320ms ease;
   height: 100%;
 }
 
 .product-card:hover {
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
+  border-color: #D4AF37;
+  box-shadow: 0 18px 40px rgba(15, 23, 42, .09);
   transform: translateY(-6px);
 }
 
 /* Card Image */
+/* White photo panel with a hairline, matching the home page cards. */
 .card-image {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 100%;
   height: 240px;
+  padding: 1.25rem;
   overflow: hidden;
-  background: linear-gradient(to br, #f1f5f9, #e2e8f0);
+  background: #fff;
+  border-bottom: 1px solid #f1f5f9;
 }
 
 .image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 0.3s ease;
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  transition: transform 450ms ease;
 }
 
 .product-card:hover .image {
-  transform: scale(1.08);
+  transform: scale(1.06);
 }
 
 /* Card Content */
@@ -247,5 +257,10 @@ const isShopProduct = computed(() => !!props.price)
   .card-title {
     font-size: 1rem;
   }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .product-card:hover { transform: none; }
+  .product-card:hover .image { transform: none; }
 }
 </style>

@@ -84,7 +84,7 @@ const scrollToTop = () => window.scrollTo({ top: 0, behavior: 'smooth' })
 .smart-home-products h2 { margin: 0; color: #222; font-family: var(--font-heading); font-size: clamp(2rem, 4vw, 3.2rem); font-weight: 400; line-height: 1; }
 .smart-home-products-heading > p { max-width: 300px; margin: 0; color: #777; font-size: .9rem; line-height: 1.6; }
 .smart-home-product-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
-.smart-home-product-card { overflow: hidden; border: 1px solid #e7ecee; background: #fff; }
+.smart-home-product-card { overflow: hidden; border: 1px solid #C5A059; background: #fff; }
 .smart-home-product-card img { display: block; width: 100%; height: 220px; object-fit: cover; transition: transform .45s ease; }
 .smart-home-product-card:hover img { transform: scale(1.05); }
 .smart-home-product-card > div { padding: 1.2rem; }

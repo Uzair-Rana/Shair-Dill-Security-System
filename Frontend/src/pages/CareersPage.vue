@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useScrollReveal } from '../composables/useScrollReveal'
+import { useScrollSpin } from '../composables/useScrollSpin'
 
 // ── Hiring process steps ────────────────────────────────────────────────────
 const steps = [
@@ -74,8 +75,13 @@ const jobsRef    = ref<HTMLElement | null>(null)
 const formRef    = ref<HTMLElement | null>(null)
 
 useScrollReveal(headerRef,  { threshold: 0.1 })
-useScrollReveal(stepsRef,   { threshold: 0.05 })
-useScrollReveal(jobsRef,    { threshold: 0.05 })
+
+// These lists carried `reveal-up` with nothing to add `is-visible`, so they
+// never appeared. Scroll-driven motion reveals them instead.
+const { styleFor: stepStyle } = useScrollSpin(stepsRef, { columns: 3 })
+const { styleFor: jobStyle } = useScrollSpin(jobsRef, { spin: 0, columns: 1 })
+
+
 useScrollReveal(formRef,    { threshold: 0.1 })
 
 const handleSubmit = () => { submitted.value = true }
@@ -142,9 +148,10 @@ const handleSubmit = () => { submitted.value = true }
           <p class="text-[16px] text-[#6E6E73] mt-3 max-w-[480px] mx-auto">Transparent, fair, and fast — from application to deployment in as little as 2 weeks.</p>
         </div>
 
-        <div ref="stepsRef" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div ref="stepsRef" class="spin-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           <div v-for="(step, i) in steps" :key="step.number"
-            :class="['reveal-up bg-white rounded-2xl p-7 border border-[#C5DEF5] shadow-[0_2px_12px_rgba(95,168,224,0.08)]', `delay-${(i % 3) * 100}`]">
+            class="bg-white rounded-2xl p-7 border border-[#C5DEF5] shadow-[0_2px_12px_rgba(95,168,224,0.08)]"
+            :style="stepStyle(i)">
             <!-- Step number + icon -->
             <div class="flex items-center gap-3 mb-5">
               <span class="text-[2rem] font-black text-[#C5DEF5] leading-none">{{ step.number }}</span>
@@ -166,8 +173,9 @@ const handleSubmit = () => { submitted.value = true }
         </div>
 
         <div ref="jobsRef" class="space-y-3">
-          <div v-for="pos in positions" :key="pos.title"
-            class="reveal-up group flex flex-col sm:flex-row sm:items-center gap-4 bg-white border border-[#C5DEF5] rounded-2xl px-6 py-5 hover:border-[#5FA8E0] hover:shadow-[0_8px_24px_rgba(95,168,224,0.12)] transition-all duration-300">
+          <div v-for="(pos, i) in positions" :key="pos.title"
+            :style="jobStyle(i)"
+            class="group flex flex-col sm:flex-row sm:items-center gap-4 bg-white border border-[#C5DEF5] rounded-2xl px-6 py-5 hover:border-[#5FA8E0] hover:shadow-[0_8px_24px_rgba(95,168,224,0.12)] transition-all duration-300">
 
             <div class="flex-1 min-w-0">
               <div class="flex items-center gap-2 mb-1 flex-wrap">
@@ -296,3 +304,9 @@ const handleSubmit = () => { submitted.value = true }
 
   </div>
 </template>
+
+<style scoped>
+/* Depth for the scroll-driven card rotation (useScrollSpin). */
+.spin-grid { perspective: 1400px; }
+.spin-grid > * { transform-style: preserve-3d; }
+</style>

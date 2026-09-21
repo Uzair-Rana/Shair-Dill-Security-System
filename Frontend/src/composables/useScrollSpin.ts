@@ -19,9 +19,9 @@ interface Options {
  * one-shot reveal this replays every time, and reverses when scrolling back.
  */
 export function useScrollSpin(container: Ref<HTMLElement | null>, options: Options = {}) {
-    // A narrow enter→settle band means the turn completes in less scrolling,
-    // which is what reads as a quicker motion when it is scroll-driven.
-    const { enter = 0.88, settle = 0.58, spin = 360, stagger = 18, columns = 4 } = options
+    // The enter→settle band is how much scrolling the turn takes: wider is
+    // slower. 0.95→0.45 spreads it over half the viewport height.
+    const { enter = 0.95, settle = 0.45, spin = 360, stagger = 26, columns = 4 } = options
 
     const progress = ref<number[]>([])
     let raf = 0
@@ -57,6 +57,10 @@ export function useScrollSpin(container: Ref<HTMLElement | null>, options: Optio
      * transition, which would otherwise lag the per-frame updates.
      */
     const styleFor = (index: number): CSSProperties => {
+        // Never measured (ref not attached yet, or at all) — stay visible
+        // rather than sitting at opacity 0 forever.
+        if (!progress.value.length) return {}
+
         const p = progress.value[index] ?? 0
         if (!enabled || p >= 0.999) return {}
         return {

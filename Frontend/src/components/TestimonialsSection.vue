@@ -135,7 +135,7 @@ const testimonials: Testimonial[] = [
 /* Testimonial Card */
 .testimonial-card {
   background: white;
-  border: 2px solid #e2e8f0;
+  border: 2px solid #C5A059;
   border-radius: 16px;
   padding: 40px;
   transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
@@ -150,7 +150,7 @@ const testimonials: Testimonial[] = [
 }
 
 .testimonial-card:hover {
-  border-color: #3b82f6;
+  border-color: #D4AF37;
   box-shadow:
     0 60px 120px rgba(59, 130, 246, 0.15),
     0 0 50px rgba(59, 130, 246, 0.2);

@@ -52,11 +52,14 @@ const openProduct = (id: string, origin?: string) => {
   currentPage.value = 'product'
 }
 
-/** Back from a product to the section on the home page it was opened from. */
+/** Anchors that live on the shop page rather than the home page. */
+const SHOP_ANCHORS = new Set(['shop-brands'])
+
+/** Back from a product to the exact section it was opened from. */
 const backToProducts = () => {
   pendingAnchor = productOrigin.value
   selectedProductId.value = null
-  currentPage.value = 'home'
+  currentPage.value = SHOP_ANCHORS.has(productOrigin.value) ? 'shop' : 'home'
 }
 
 watch([currentPage, selectedProductId], async () => {
@@ -91,7 +94,7 @@ watch([currentPage, selectedProductId], async () => {
           @go-to-about="navigate('about')"
           @go-to-product="openProduct"
         />
-        <div         v-else-if="currentPage === 'shop'"    class="pt-[54px]"><ShopPage /></div>
+        <div         v-else-if="currentPage === 'shop'"    class="pt-[54px]"><ShopPage @go-to-product="openProduct" /></div>
         <ServicesPage v-else-if="currentPage === 'services'" />
         <CareersPage v-else-if="currentPage === 'careers'" />
         <AboutPage   v-else-if="currentPage === 'about'" />

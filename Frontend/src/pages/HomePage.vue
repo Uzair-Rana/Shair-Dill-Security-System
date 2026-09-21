@@ -322,7 +322,7 @@ onBeforeUnmount(() => {
 
 <style scoped>
 /* ── Shared tile card (used by every product grid) ─────────── */
-.tile-card { position: relative; display: flex; flex-direction: column; text-align: left; background: #fff; border: 1px solid #eef1f4; border-radius: 14px; overflow: hidden; cursor: pointer; padding: 0; transition: transform 300ms cubic-bezier(.22,1,.36,1), box-shadow 300ms ease; }
+.tile-card { position: relative; display: flex; flex-direction: column; text-align: left; background: #fff; border: 1px solid #C5A059; border-radius: 14px; overflow: hidden; cursor: pointer; padding: 0; transition: transform 300ms cubic-bezier(.22,1,.36,1), box-shadow 300ms ease; }
 .tile-card:hover { transform: translateY(-6px); box-shadow: 0 16px 32px rgba(15,23,42,.1); }
 .tile-media { position: relative; display: flex; align-items: center; justify-content: center; aspect-ratio: 4/3; background: #fff; border-bottom: 1px solid #f1f5f9; overflow: hidden; padding: 1.25rem; }
 .tile-media img { max-width: 100%; max-height: 100%; width: auto; height: auto; object-fit: contain; transition: transform 450ms ease; }
@@ -393,8 +393,8 @@ onBeforeUnmount(() => {
 /* Gentle arc — much flatter than the solutions ring. */
 .picks-carousel { --cc-card-w: 252px; --cc-height: 408px; --cc-perspective: 2200px; }
 
-.pick-card { display: flex; flex-direction: column; background: #fff; border: 1px solid #e8ecf1; border-radius: 16px; overflow: hidden; text-align: left; box-shadow: 0 8px 22px rgba(15,23,42,.05); transition: border-color 300ms ease, box-shadow 300ms ease; }
-.pick-card.active { cursor: pointer; border-color: #d6e4f2; box-shadow: 0 22px 44px rgba(15,23,42,.13); }
+.pick-card { display: flex; flex-direction: column; background: #fff; border: 1px solid #C5A059; border-radius: 16px; overflow: hidden; text-align: left; box-shadow: 0 8px 22px rgba(15,23,42,.05); transition: border-color 300ms ease, box-shadow 300ms ease; }
+.pick-card.active { cursor: pointer; border-color: #D4AF37; box-shadow: 0 22px 44px rgba(15,23,42,.13); }
 
 .pick-media { position: relative; display: flex; align-items: center; justify-content: center; aspect-ratio: 4/3; padding: 1.25rem; background: #fff; border-bottom: 1px solid #f1f5f9; overflow: hidden; }
 .pick-media img { max-width: 100%; max-height: 100%; width: auto; height: auto; object-fit: contain; -webkit-user-drag: none; }
@@ -432,14 +432,14 @@ onBeforeUnmount(() => {
   display: flex;
   flex-direction: column;
   background: #fff;
-  border: 1px solid #e8ecf1;
+  border: 1px solid #C5A059;
   border-radius: 16px;
   overflow: hidden;
   box-shadow: none;
   transition: transform 320ms cubic-bezier(.22,1,.36,1), box-shadow 320ms ease, border-color 320ms ease,
               opacity 700ms cubic-bezier(.22,1,.36,1), translate 700ms cubic-bezier(.22,1,.36,1);
 }
-.action-card:hover { transform: translateY(-6px); border-color: #d6e4f2; box-shadow: 0 18px 40px rgba(15,23,42,.09); }
+.action-card:hover { transform: translateY(-6px); border-color: #D4AF37; box-shadow: 0 18px 40px rgba(15,23,42,.09); }
 
 .action-media { aspect-ratio: 16/10; padding: 1.75rem; }
 .action-card:hover .action-media img { transform: scale(1.05); }

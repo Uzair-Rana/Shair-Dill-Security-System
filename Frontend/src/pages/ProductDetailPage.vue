@@ -136,8 +136,8 @@ watch(() => props.product.id, () => { mediaKey.value += 1 })
 
 .pdp-related { margin-top: 4rem; padding-top: 3rem; border-top: 1px solid #eef2f6; }
 .pdp-related-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1.5rem; }
-.pdp-related-card { display: flex; flex-direction: column; text-align: left; background: #fff; border: 1px solid #e8ecf1; border-radius: 14px; overflow: hidden; padding: 0; cursor: pointer; transition: transform 300ms cubic-bezier(.22,1,.36,1), box-shadow 300ms ease, border-color 300ms ease; }
-.pdp-related-card:hover { transform: translateY(-6px); border-color: #d6e4f2; box-shadow: 0 16px 32px rgba(15,23,42,.09); }
+.pdp-related-card { display: flex; flex-direction: column; text-align: left; background: #fff; border: 1px solid #C5A059; border-radius: 14px; overflow: hidden; padding: 0; cursor: pointer; transition: transform 300ms cubic-bezier(.22,1,.36,1), box-shadow 300ms ease, border-color 300ms ease; }
+.pdp-related-card:hover { transform: translateY(-6px); border-color: #D4AF37; box-shadow: 0 16px 32px rgba(15,23,42,.09); }
 .pdp-related-media { display: flex; align-items: center; justify-content: center; aspect-ratio: 4/3; padding: 1.25rem; background: #fff; border-bottom: 1px solid #f1f5f9; overflow: hidden; }
 .pdp-related-media img { max-width: 100%; max-height: 100%; width: auto; height: auto; object-fit: contain; transition: transform 450ms ease; }
 .pdp-related-card:hover .pdp-related-media img { transform: scale(1.07); }

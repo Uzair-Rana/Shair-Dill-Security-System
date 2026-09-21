@@ -194,7 +194,7 @@ onBeforeUnmount(() => {
   width: var(--card-w);
   margin-left: calc(var(--card-w) / -2);
   background: #fff;
-  border: 1px solid #e8ecf1;
+  border: 1px solid #C5A059;
   border-radius: 18px;
   overflow: hidden;
   transform-style: preserve-3d;
@@ -202,7 +202,7 @@ onBeforeUnmount(() => {
   user-select: none;
   box-shadow: 0 10px 30px rgba(15, 23, 42, .07);
 }
-.cf-card.active { cursor: pointer; border-color: #d6e4f2; box-shadow: 0 26px 56px rgba(15, 23, 42, .16); }
+.cf-card.active { cursor: pointer; border-color: #D4AF37; box-shadow: 0 26px 56px rgba(15, 23, 42, .16); }
 
 .cf-media { display: flex; align-items: center; justify-content: center; aspect-ratio: 4/3; padding: 1.5rem; background: #fff; border-bottom: 1px solid #f1f5f9; }
 .cf-media img { max-width: 100%; max-height: 100%; width: auto; height: auto; object-fit: contain; -webkit-user-drag: none; }

@@ -85,7 +85,7 @@ const duplicatedProducts = [...products, ...products]
 .card-wrapper {
   width: 100%;
   height: 100%;
-  border: 1px solid #e2e8f0;
+  border: 1px solid #C5A059;
   border-radius: 24px;
   overflow: hidden;
   background: white;

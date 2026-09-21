@@ -1,5 +1,7 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref, computed, type ComponentPublicInstance } from 'vue'
+import { useScrollSpin } from '../composables/useScrollSpin'
+import { brandOrder, brandRangeSheets, priceLabel, productsByBrand } from '../data/products'
 import ProductCard from '../components/ProductCard.vue'
 
 import bgGradientTransition from '../assets/Backgrounds/Gradient_background_transitionin…_2K_202609091340.jpeg'
@@ -33,6 +35,34 @@ const selectedCategories = ref<string[]>(['cctv', 'biometric'])
 const inStockOnly = ref(false)
 const priceRange = ref(60)
 const mobileFiltersOpen = ref(false)
+const emit = defineEmits<{ goToProduct: [id: string, origin: string] }>()
+
+/* ── Brand-by-brand camera line-ups ───────────────────────────
+   Each brand gets a full-range banner, then its individual products. One
+   scroll-spin instance per grid, since the composable measures the direct
+   children of a single container. */
+const brands = brandOrder.map((brand) => ({
+  brand,
+  sheet: brandRangeSheets[brand]!,
+  products: productsByBrand[brand] ?? [],
+}))
+
+const brandGridRefs = brands.map(() => ref<HTMLElement | null>(null))
+const brandSpins = brandGridRefs.map((gridRef) => useScrollSpin(gridRef, { columns: 4 }))
+
+const setBrandGrid = (index: number) => (el: Element | ComponentPublicInstance | null) => {
+  brandGridRefs[index]!.value = el as HTMLElement | null
+}
+
+/** Which brand's full-range sheet is expanded; only one at a time. */
+const openBrand = ref<string | null>(null)
+const toggleBrand = (brand: string) => {
+  openBrand.value = openBrand.value === brand ? null : brand
+}
+
+const shopGridRef = ref<HTMLElement | null>(null)
+const { styleFor: shopStyle } = useScrollSpin(shopGridRef, { columns: 3 })
+
 const sortBy = ref('featured')
 
 const priceMin = 0
@@ -319,7 +349,7 @@ const getTotalItems = () => {
         </aside>
 
         <!-- ── Product Grid ───────────────────────────────────────────────────── -->
-        <main class="flex-1 min-w-0">
+        <main id="shop-brands" class="flex-1 min-w-0">
 
           <!-- Desktop toolbar -->
           <div class="hidden lg:flex items-center justify-between mb-7 pb-5 border-b border-[#C5DEF5]">
@@ -344,60 +374,60 @@ const getTotalItems = () => {
             </div>
           </div>
 
-          <!-- Grid -->
-          <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5 md:gap-6">
-            <ProductCard
-              v-for="p in products"
-              :key="p.name"
-              :name="p.name"
-              :price="p.price"
-              :tag="p.tag"
-              :image="p.image"
-              @add-to-cart="handleAddToCart"
-            />
-          </div>
+          <!-- ── Cameras by brand ──────────────────────────────────────── -->
+          <div class="space-y-12">
+            <section v-for="(group, bi) in brands" :key="group.brand" class="brand-block">
 
-          <!-- Pagination -->
-          <div class="mt-12 md:mt-14 flex items-center justify-center gap-2">
-            <button
-              class="w-10 h-10 rounded-xl border border-[#C5DEF5] bg-white text-[#6E6E73] hover:border-[#5FA8E0] hover:text-[#5FA8E0] hover:bg-[#E8F1FA] flex items-center justify-center transition-all shadow-sm disabled:opacity-40"
-              :disabled="currentPage === 1"
-              @click="currentPage = Math.max(1, currentPage - 1)"
-              aria-label="Previous page"
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
-              </svg>
-            </button>
+              <div class="brand-head">
+                <h3>{{ group.brand }}</h3>
+                <button
+                  type="button"
+                  class="brand-toggle"
+                  :aria-expanded="openBrand === group.brand"
+                  @click="toggleBrand(group.brand)"
+                >
+                  {{ openBrand === group.brand ? 'Hide full range' : 'View full range' }}
+                  <span class="brand-toggle-icon" :class="{ open: openBrand === group.brand }" aria-hidden="true">⌄</span>
+                </button>
+              </div>
 
-            <button
-              v-for="n in pageCount"
-              :key="n"
-              @click="currentPage = n"
-              :class="[
-                'w-10 h-10 rounded-xl border text-sm font-extrabold flex items-center justify-center transition-all shadow-sm',
-                currentPage === n
-                  ? 'bg-[#5FA8E0] border-[#5FA8E0] text-white shadow-[0_4px_12px_rgba(59,143,212,0.3)]'
-                  : 'bg-white border-[#C5DEF5] text-[#6E6E73] hover:border-[#5FA8E0] hover:text-[#5FA8E0] hover:bg-[#E8F1FA]',
-              ]"
-            >
-              {{ n }}
-            </button>
+              <Transition name="sheet">
+                <figure v-if="openBrand === group.brand" class="brand-banner">
+                  <img :src="group.sheet" :alt="`${group.brand} full product range`" />
+                  <figcaption>{{ group.brand }} &mdash; complete line-up</figcaption>
+                </figure>
+              </Transition>
 
-            <button
-              class="w-10 h-10 rounded-xl border border-[#C5DEF5] bg-white text-[#6E6E73] hover:border-[#5FA8E0] hover:text-[#5FA8E0] hover:bg-[#E8F1FA] flex items-center justify-center transition-all shadow-sm disabled:opacity-40"
-              :disabled="currentPage === pageCount"
-              @click="currentPage = Math.min(pageCount, currentPage + 1)"
-              aria-label="Next page"
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.2">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
-              </svg>
-            </button>
+              <div :ref="setBrandGrid(bi)" class="spin-grid grid grid-cols-2 xl:grid-cols-3 gap-4 md:gap-5">
+                <button
+                  v-for="(item, i) in group.products"
+                  :key="item.id"
+                  type="button"
+                  class="brand-card"
+                  :style="brandSpins[bi]!.styleFor(i)"
+                  @click="emit('goToProduct', item.id, 'shop-brands')"
+                >
+                  <span class="brand-card-media">
+                    <img :src="item.image" :alt="item.title" loading="lazy" />
+                  </span>
+                  <span class="brand-card-body">
+                    <span class="brand-card-title">{{ item.title }}</span>
+                    <span class="brand-card-price">{{ priceLabel(item) }}</span>
+                  </span>
+                </button>
+              </div>
+            </section>
           </div>
 
         </main>
       </div>
     </div>
+
   </section>
 </template>
+
+<style scoped>
+/* Depth for the scroll-driven card rotation (useScrollSpin). */
+.shop-grid { perspective: 1400px; }
+.shop-grid > * { transform-style: preserve-3d; }
+</style>

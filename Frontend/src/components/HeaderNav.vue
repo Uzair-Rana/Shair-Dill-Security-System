@@ -52,8 +52,8 @@ const handleNav = (page: 'home' | 'shop' | 'services' | 'careers' | 'about' | 'c
               <img :src="logoImg" alt="SDSSS Logo" class="h-full w-auto object-contain" />
             </div>
             <span class="hidden sm:block text-[15px] font-medium tracking-tight">
-              <span class="text-[#E9C874]">SDSSS</span>
-              <span class="text-[#E9C874]/70"> Security Systems</span>
+              <span class="text-[#FFD700]">SDSSS</span>
+              <span class="text-[#FFD700]/70"> Security Systems</span>
             </span>
           </button>
 
@@ -63,7 +63,7 @@ const handleNav = (page: 'home' | 'shop' | 'services' | 'careers' | 'about' | 'c
               v-for="link in navLinks" :key="link.label"
               @click="handleNav(link.page)"
               :class="[
-                'text-[14px] font-normal px-3 transition-colors duration-200 nav-link text-[#E9C874]',
+                'text-[14px] font-normal px-3 transition-colors duration-200 nav-link text-[#FFD700]',
                 (link.page === currentPage) ? 'font-semibold' : 'opacity-80 hover:opacity-100',
               ]"
             >{{ link.label }}</button>
@@ -80,12 +80,12 @@ const handleNav = (page: 'home' | 'shop' | 'services' | 'careers' | 'about' | 'c
             <button type="button" aria-label="Shopping cart" class="header-icon hidden sm:inline-flex" @click="handleNav('shop')">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="20" r="1.3"/><circle cx="18" cy="20" r="1.3"/><path d="M2.5 3h2.6l2.4 11.6a1.5 1.5 0 0 0 1.5 1.2h8.9a1.5 1.5 0 0 0 1.5-1.1L21.5 7H6"/></svg>
             </button>
-            <button @click="handleNav('shop')" style="border-radius: 10px;" class="hidden md:inline-flex items-center justify-center text-[13px] font-medium px-6 py-2.5 transition-all duration-200 active:scale-[0.97] bg-[#D4AF37] text-black hover:bg-[#C5A059]">
+            <button @click="handleNav('shop')" style="border-radius: 10px;" class="hidden md:inline-flex items-center justify-center text-[13px] font-medium px-6 py-2.5 transition-all duration-200 active:scale-[0.97] bg-[#FFD700] text-black hover:bg-[#E6C200]">
               Shop now
             </button>
 
             <button @click="mobileOpen = !mobileOpen"
-              class="lg:hidden w-8 h-8 rounded-lg flex items-center justify-center text-[#E9C874] hover:bg-white/15 transition-colors"
+              class="lg:hidden w-8 h-8 rounded-lg flex items-center justify-center text-[#FFD700] hover:bg-white/15 transition-colors"
               aria-label="Toggle menu"
             >
               <svg v-if="!mobileOpen" xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -113,14 +113,14 @@ const handleNav = (page: 'home' | 'shop' | 'services' | 'careers' | 'about' | 'c
                 v-for="link in navLinks" :key="link.label"
                 @click="handleNav(link.page)"
                 :class="[
-                  'text-left px-3 py-2.5 text-[15px] transition-colors w-full rounded-lg text-[#E9C874]',
+                  'text-left px-3 py-2.5 text-[15px] transition-colors w-full rounded-lg text-[#FFD700]',
                   (link.page === currentPage)
                     ? 'font-semibold bg-white/10'
                     : 'opacity-80 hover:opacity-100 hover:bg-white/10',
                 ]"
               >{{ link.label }}</button>
             </nav>
-            <button @click="handleNav('shop')" style="border-radius: 10px;" class="w-full bg-[#D4AF37] text-black font-medium py-2.5 text-[14px] hover:bg-[#C5A059] active:scale-[0.98] transition-all">
+            <button @click="handleNav('shop')" style="border-radius: 10px;" class="w-full bg-[#FFD700] text-black font-medium py-2.5 text-[14px] hover:bg-[#E6C200] active:scale-[0.98] transition-all">
               Shop now
             </button>
           </div>

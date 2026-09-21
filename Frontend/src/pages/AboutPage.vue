@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useScrollReveal } from '../composables/useScrollReveal'
+import { useScrollSpin } from '../composables/useScrollSpin'
 import ContactSection from '../components/ContactSection.vue'
 import logoImg from '../assets/logo of SDSSS.png'
 
@@ -11,8 +12,14 @@ const teamRef    = ref<HTMLElement | null>(null)
 
 useScrollReveal(headerRef,  { threshold: 0.1  })
 useScrollReveal(missionRef, { threshold: 0.1  })
-useScrollReveal(valuesRef,  { threshold: 0.06 })
-useScrollReveal(teamRef,    { threshold: 0.06 })
+
+// These grids previously carried `reveal-up` with nothing to add `is-visible`,
+// so they never became visible. Scroll-driven motion reveals them instead.
+const { styleFor: valueStyle } = useScrollSpin(valuesRef, { columns: 3 })
+const timelineRef = ref<HTMLElement | null>(null)
+const { styleFor: timelineStyle } = useScrollSpin(timelineRef, { spin: 0, columns: 1 })
+
+
 
 const stats = [
   { n: '2009', l: 'Founded' },
@@ -185,9 +192,10 @@ const team = [
           <p class="text-[13px] font-semibold text-[#5FA8E0] mb-2">What drives us</p>
           <h2 class="text-[clamp(1.75rem,4vw,2.5rem)] font-black text-[#1D1D1F] tracking-[-0.02em]">Our core values</h2>
         </div>
-        <div ref="valuesRef" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+        <div ref="valuesRef" class="spin-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
           <div v-for="(v, i) in values" :key="v.title"
-            :class="['reveal-up rounded-2xl p-7 border border-[#C5DEF5] bg-white hover:-translate-y-1 transition-all duration-300 shadow-[0_2px_12px_rgba(95,168,224,0.08)] hover:shadow-[0_8px_24px_rgba(95,168,224,0.15)]', `delay-${(i % 3) * 100}`]">
+            class="value-card rounded-2xl p-7 border border-[#C5DEF5] bg-white hover:-translate-y-1 transition-all duration-300 shadow-[0_2px_12px_rgba(95,168,224,0.08)] hover:shadow-[0_8px_24px_rgba(95,168,224,0.15)]"
+            :style="valueStyle(i)">
             <div class="w-11 h-11 rounded-full bg-[#E8F1FA] border border-[#C5DEF5] flex items-center justify-center text-[#5FA8E0] mb-5" v-html="v.icon" />
             <h3 class="text-[16px] font-bold text-[#1D1D1F] mb-2">{{ v.title }}</h3>
             <p class="text-[14px] text-[#6E6E73] leading-relaxed">{{ v.desc }}</p>
@@ -240,9 +248,10 @@ const team = [
         <div ref="teamRef" class="relative">
           <!-- Vertical line -->
           <div class="absolute left-[19px] top-0 bottom-0 w-px bg-[#C5DEF5]" />
-          <div class="space-y-8">
+          <div ref="timelineRef" class="space-y-8">
             <div v-for="(t, i) in timeline" :key="t.year"
-              :class="['reveal-up flex gap-5 items-start', `delay-${(i % 4) * 100}`]">
+              class="flex gap-5 items-start"
+              :style="timelineStyle(i)">
               <!-- Dot -->
               <div class="w-10 h-10 rounded-full bg-[#5FA8E0] flex items-center justify-center flex-shrink-0 z-10 shadow-sm">
                 <span class="text-[11px] font-black text-white">{{ t.year.slice(2) }}</span>
@@ -264,6 +273,9 @@ const team = [
 </template>
 
 <style scoped>
+.spin-grid { perspective: 1400px; }
+.spin-grid > * { transform-style: preserve-3d; }
+
 .team-card {
   animation: teamCardSlideIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
   opacity: 0;

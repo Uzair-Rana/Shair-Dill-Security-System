@@ -42,7 +42,7 @@ import cctvCameraImg from '../assets/products/CCTV-camera-price-in-lahore-4-FHD-
   max-width: 1200px;
   padding: 0;
   margin: 20px;
-  border: 1px solid #e2e8f0;
+  border: 1px solid #C5A059;
   box-shadow:
     0 50px 100px rgba(0, 0, 0, 15%),
     0 0 40px rgba(59, 130, 246, 0.3),
@@ -54,7 +54,7 @@ import cctvCameraImg from '../assets/products/CCTV-camera-price-in-lahore-4-FHD-
   border-radius: 24px;
   transform-style: preserve-3d;
   transform: translateY(-30px) translateZ(30px) rotateX(5deg);
-  border-color: #cbd5e1;
+  border-color: #D4AF37;
 }
 
 .hero-card {
@@ -135,7 +135,7 @@ import cctvCameraImg from '../assets/products/CCTV-camera-price-in-lahore-4-FHD-
     width: 95%;
     margin: 20px;
     border-radius: 20px;
-    border: 1px solid #e2e8f0;
+    border: 1px solid #C5A059;
   }
 
   .card-image {
@@ -163,7 +163,7 @@ import cctvCameraImg from '../assets/products/CCTV-camera-price-in-lahore-4-FHD-
     width: 95%;
     margin: 20px;
     border-radius: 18px;
-    border: 1px solid #e2e8f0;
+    border: 1px solid #C5A059;
   }
 
   .card-image {
@@ -191,7 +191,7 @@ import cctvCameraImg from '../assets/products/CCTV-camera-price-in-lahore-4-FHD-
     width: 98%;
     padding: 0;
     margin: 15px;
-    border: 1px solid #e2e8f0;
+    border: 1px solid #C5A059;
     border-radius: 16px;
   }
 
